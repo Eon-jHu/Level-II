@@ -6,6 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
 
+    public LayerMask solidObjectsLayer;
+
     private bool isMoving;
 
     private Vector2 input;
@@ -29,7 +31,10 @@ public class PlayerMovement : MonoBehaviour
                 targetPos.x += input.x;
                 targetPos.y += input.y;
 
-                StartCoroutine(Move(targetPos));
+                if (IsWalkable(targetPos))
+                {
+                    StartCoroutine(Move(targetPos)); // Only moving if there is no collision.
+                }
             }
         }
     }
@@ -46,6 +51,19 @@ public class PlayerMovement : MonoBehaviour
         transform.position = targetPos;
 
         isMoving = false;
+    }
+
+    // Checking for collision:
+    private bool IsWalkable(Vector3 targetPos)
+    {
+        if (Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectsLayer) != null) // Checking if there is a solid object.
+        {
+            return false; // Tile is not walkable.
+        }
+        else
+        {
+            return true;
+        }
     }
 
 }
