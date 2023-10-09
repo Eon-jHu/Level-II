@@ -131,6 +131,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: A Rock
   unitLevel: 9
-  damage: 10
   maxHP: 25
   currentHP: 20
+  isAlive: 1
+  attackMod: 0
+  blockMod: 0
+  chargeLevels: 0
+  attackBehaviour: {fileID: 11400000, guid: 0957e9d31d385044a97bc1d19c64874e, type: 2}
+  blockBehaviour: {fileID: 11400000, guid: f76a40cd63b07c040ada2a01e38332c3, type: 2}
+  battleStrategy: {fileID: 11400000, guid: 1a2aeb4c7ebb2b143b9b476f5796b77f, type: 2}
+  prevAction: 5
+  currentAction: 5

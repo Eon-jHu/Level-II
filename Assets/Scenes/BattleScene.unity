@@ -804,6 +804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 1963216493}
   levelText: {fileID: 950005629}
+  hpText: {fileID: 1037848569}
   hpSlider: {fileID: 1175546101}
 --- !u!114 &712508622
 MonoBehaviour:
@@ -937,6 +938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 442220634}
   levelText: {fileID: 1320057912}
+  hpText: {fileID: 1248591905}
   hpSlider: {fileID: 2009361585}
 --- !u!1 &950005627
 GameObject:
@@ -1108,7 +1110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -110.4, y: -0.971}
+  m_AnchoredPosition: {x: -112.8, y: -0.971}
   m_SizeDelta: {x: 22.336, y: 20.342}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1037848569
@@ -1165,7 +1167,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1293,7 +1295,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 502924371}
         m_TargetAssemblyTypeName: BattleSystem, Assembly-CSharp
-        m_MethodName: OnAttackButton
+        m_MethodName: OnBlockButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1618,7 +1620,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -110.4, y: -0.971}
+  m_AnchoredPosition: {x: -112.2, y: -0.971}
   m_SizeDelta: {x: 22.336, y: 20.342}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1248591905
@@ -1675,7 +1677,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2093,7 +2095,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: 8cb101ccef464ad4f906b508adee856e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2542,7 +2544,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: 8cb101ccef464ad4f906b508adee856e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

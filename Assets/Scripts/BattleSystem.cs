@@ -1,15 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
+public enum EBattleState
+{
+    START,
+    READY,
+    RESOLVING,
+    WON,
+    LOST
+}
 
 public class BattleSystem : MonoBehaviour
 {
-    public BattleState battleState;
+    public EBattleState battleState;
 
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
@@ -17,117 +25,245 @@ public class BattleSystem : MonoBehaviour
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
 
-    public TextMeshProUGUI dialogueText;
+    [SerializeField] TextMeshProUGUI dialogueText;
 
     public BattleHUD playerHUD;
     public BattleHUD enemyHUD;
 
-    Unit playerUnit;
-    Unit enemyUnit;
+    BattleUnit playerBattleUnit;
+    BattleUnit enemyBattleUnit;
+
+    List<string> battleScript = new List<string>();
+    List<BattleHUD> battleHUDRefs = new List<BattleHUD>();
 
     // Start is called before the first frame update
     void Start()
     {
-        battleState = BattleState.START;   
-        StartCoroutine(SetupBattle());
+        battleState = EBattleState.START;
+        StartCoroutine(SetupBattle()); 
     }
+
+    // ============== BATTLE STATE FUNCTIONS ==============
 
     IEnumerator SetupBattle()
     {
         GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
-        playerUnit = playerGO.GetComponent<Unit>();
-
         GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
-        enemyUnit = enemyGO.GetComponent<Unit>();
 
-        dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
+        playerBattleUnit = playerGO.GetComponent<BattleUnit>();
+        enemyBattleUnit = enemyGO.GetComponent<BattleUnit>();
 
-        playerHUD.SetHUD(playerUnit);
-        enemyHUD.SetHUD(enemyUnit);
+        // Initialize HUDs
+        playerHUD.LinkHUD(playerBattleUnit);
+        enemyHUD.LinkHUD(enemyBattleUnit);
 
-        yield return new WaitForSeconds(2f);
+        SetupBattleDialogue();
+        yield return new WaitForSeconds(1.5f);
+        ReadyForActionsDialogue();
+        yield return new WaitForSeconds(0.5f);
 
-        battleState = BattleState.PLAYERTURN;
-        PlayerTurn();
-
+        battleState = EBattleState.READY;
     }
 
-    void PlayerTurn()
+    // TODO: Make into a coroutine.
+
+    void PerformBattle()
     {
-        dialogueText.text = "It's your turn.\nWhat will you do?";
+        // Change BattleState
+        battleState = EBattleState.RESOLVING;
+
+        enemyBattleUnit.ExecuteBattleStrategy(enemyBattleUnit.prevAction, playerBattleUnit.prevAction);
+
+        // Battle Order: Ultis >> Blocks >> Attacks >> Charges >> CleanUp
+        //ResolveUltis(playerBattleUnit, enemyBattleUnit);
+        ResolveBlocks();
+        ResolveAttacks();
+        //ResolveCharges();
+
+        StartCoroutine(ResolveActions());
     }
 
-    public void OnAttackButton()
+    void UpdateBattleHUD(BattleHUD _HUD)
     {
-        if (battleState != BattleState.PLAYERTURN)
+        _HUD.UpdateHUD();
+    }
+
+    void ResolveBlocks()
+    {
+        if (playerBattleUnit.currentAction == EActionType.BLOCKING)
         {
-            return;
+            Debug.Log("Player blocks");
+            playerBattleUnit.Block();
+
+            // Add to resolution chain
+            battleScript.Add(BlockDialogue(playerBattleUnit.unitName));
+            battleHUDRefs.Add(enemyHUD); // opposing unit's HP; since no diff
         }
 
-        StartCoroutine(PlayerAttack());
+        if (enemyBattleUnit.currentAction == EActionType.BLOCKING)
+        {
+            Debug.Log("Enemy blocks");
+            enemyBattleUnit.Block();
+
+            // Add to resolution chain
+            battleScript.Add(BlockDialogue(enemyBattleUnit.unitName));
+            battleHUDRefs.Add(playerHUD); // opposing unit's HP; since no diff
+        }
     }
 
-    IEnumerator PlayerAttack()
+
+    void ResolveAttacks()
     {
-        bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
-
-        // Damage enemy
-        enemyHUD.SetHP(enemyUnit.currentHP);
-        dialogueText.text = "Your attack hits!";
-
-        yield return new WaitForSeconds(2f);
-
-        // Check if enemy is dead
-        if (isDead)
+        if (playerBattleUnit.currentAction == EActionType.ATTACKING)
         {
-            battleState = BattleState.WON;
+            Debug.Log("Player attacks");
+            int iDamageCheck = playerBattleUnit.Attack(enemyBattleUnit);
+            Debug.Log("Player damage = " + iDamageCheck);
+
+            // Add to resolution chain
+            battleScript.Add(AttackDialogue(playerBattleUnit.unitName, iDamageCheck));
+            battleHUDRefs.Add(enemyHUD);
+        }
+
+        if (enemyBattleUnit.currentAction == EActionType.ATTACKING)
+        {
+            Debug.Log("Enemy attacks");
+            int iDamageCheck = enemyBattleUnit.Attack(playerBattleUnit);
+            Debug.Log("Enemy damage = " + iDamageCheck);
+
+            // Add to resolution chain
+            battleScript.Add(AttackDialogue(enemyBattleUnit.unitName, iDamageCheck));
+            battleHUDRefs.Add(playerHUD);
+        }
+    }
+
+    IEnumerator ResolveActions()
+    {
+        for (int i = 0; i < battleScript.Count; i++)
+        {
+            dialogueText.text = battleScript[i];
+
+            if (battleHUDRefs[i] != null)
+            {
+                UpdateBattleHUD(battleHUDRefs[i]);
+            }
+
+            yield return new WaitForSeconds(2f);
+        }
+
+        CleanUp();
+    }
+
+    private void CleanUp()
+    {
+        // Clean up step
+        playerBattleUnit.blockMod = 0;
+        enemyBattleUnit.blockMod = 0;
+
+        // Clear lists
+        battleHUDRefs.Clear();
+        battleScript.Clear();
+
+        Debug.Log(playerBattleUnit.unitName + " is dead: " + !playerBattleUnit.isAlive);
+        Debug.Log(enemyBattleUnit.unitName + " is dead: " + !enemyBattleUnit.isAlive);
+
+        // Check for statuses
+        if (!playerBattleUnit.isAlive)
+        {   
+            battleState = EBattleState.LOST;
+            EndBattle();
+        }
+        else if (!enemyBattleUnit.isAlive)
+        {
+            battleState = EBattleState.WON;
             EndBattle();
         }
         else
         {
-            battleState = BattleState.ENEMYTURN;
-            StartCoroutine(EnemyTurn());
+            // Reset turn
+            battleState = EBattleState.READY;
+            ReadyForActionsDialogue();
         }
     }
-    IEnumerator EnemyTurn()
+
+    // ============== DIALOGUE FUNCTIONS ==============
+
+    private void SetupBattleDialogue()
     {
-        dialogueText.text = enemyUnit.unitName + " attacks!";
+        dialogueText.text = "The " + enemyBattleUnit.unitName + " approaches...";
+    }
 
-        yield return new WaitForSeconds(1f);
+    private void ReadyForActionsDialogue()
+    {
+        dialogueText.text = "You're in battle.\nWhat will you do?";
+    }
 
-        bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
+    private string BlockDialogue(string _unitName)
+    {
+        return _unitName + " blocks.";
+    }
 
-        playerHUD.SetHP(playerUnit.currentHP);
-
-        yield return new WaitForSeconds(1f);
-
-        if (isDead)
+    private string AttackDialogue(string _unitName, int _damage)
+    {
+        if (_damage < 0)
         {
-            battleState = BattleState.LOST;
-            EndBattle();
+            return _unitName + " missed on their attack.";
+        }
+        else if (_damage == 0)
+        {
+            return _unitName + " dealt no damage on their attack.";
         }
         else
         {
-            battleState = BattleState.PLAYERTURN;
-            PlayerTurn();
+            return _unitName + "'s attack hits for " + _damage + " damage!";
         }
     }
 
-    void EndBattle()
+    private void EndBattle()
     {
-        if (battleState == BattleState.WON)
+        if (battleState == EBattleState.WON)
         {
             dialogueText.text = "You won the battle!";
         }
-        else if (battleState == BattleState.LOST)
+        else if (battleState == EBattleState.LOST)
         {
             dialogueText.text = "You were defeated...";
         }
     }
 
+    // ============== BUTTON FUNCTIONS ==============
+
+    public void OnAttackButton()
+    {
+        if (battleState != EBattleState.READY)
+        {
+            return;
+        }
+
+        playerBattleUnit.prevAction = playerBattleUnit.currentAction;
+        playerBattleUnit.currentAction = EActionType.ATTACKING;
+
+        PerformBattle();
+    }
+
+    public void OnBlockButton()
+    {
+        if (battleState != EBattleState.READY)
+        {
+            return;
+        }
+
+        playerBattleUnit.prevAction = playerBattleUnit.currentAction;
+        playerBattleUnit.currentAction = EActionType.BLOCKING;
+
+        PerformBattle();
+    }
+
+    // ============== OTHER FUNCTIONS ==============
+
     // Update is called once per frame
     void Update()
     {
-        
+        // No need for Update() since it's turn-based.
     }
 }

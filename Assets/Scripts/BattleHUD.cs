@@ -6,32 +6,30 @@ using UnityEngine.UI;
 
 public class BattleHUD : MonoBehaviour
 {
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI levelText;
-    public Slider hpSlider;
+    BattleUnit m_unit;
 
-    public void SetHUD(Unit unit)
+    [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] TextMeshProUGUI levelText;
+    [SerializeField] TextMeshProUGUI hpText;
+    [SerializeField] Slider hpSlider;
+
+    public void UpdateHUD()
     {
-        nameText.text = unit.unitName;
-        levelText.text = "Lvl " + unit.unitLevel;
-        hpSlider.maxValue = unit.maxHP;
-        hpSlider.value = unit.currentHP;
+        nameText.text = m_unit.unitName;
+        levelText.text = "Lvl " + m_unit.unitLevel;
+        hpSlider.maxValue = m_unit.maxHP;
+        hpSlider.value = m_unit.currentHP;
+        hpText.text = m_unit.currentHP + "";
+    }
+
+    public void LinkHUD(BattleUnit _unit)
+    {
+        m_unit = _unit;
+        UpdateHUD();
     }
 
     public void SetHP(int hp)
     {
         hpSlider.value = hp;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
