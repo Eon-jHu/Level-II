@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum EBattleState
@@ -247,6 +248,14 @@ public class BattleSystem : MonoBehaviour
         {
             dialogueHelper.Display("You were defeated...");
         }
+
+        StartCoroutine(ReturnToWorld("MainWorld"));
+    }
+
+    IEnumerator ReturnToWorld(string _worldName)
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(_worldName);
     }
 
     // ================== BUTTON FUNCTIONS ==================

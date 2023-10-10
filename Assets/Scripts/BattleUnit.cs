@@ -93,7 +93,13 @@ public class BattleUnit : MonoBehaviour
     {
         if (currentEnergy < maxEnergy)
         {
-            currentEnergy ++;
+            currentEnergy++;
+
+            if (currentEnergy > maxEnergy)
+            {
+                currentEnergy = maxEnergy;
+            }
+
         }
     }
 
@@ -103,6 +109,11 @@ public class BattleUnit : MonoBehaviour
         if (currentEnergy < maxEnergy && !isHit)
         {
             currentEnergy += 2;
+
+            if (currentEnergy > maxEnergy)
+            {
+                currentEnergy = maxEnergy;
+            }
             return true;
         }
 
