@@ -6,25 +6,33 @@ using UnityEngine.UI;
 
 public class BattleHUD : MonoBehaviour
 {
-    BattleUnit m_unit;
+    BattleUnit unit;
 
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] TextMeshProUGUI hpText;
+    [SerializeField] TextMeshProUGUI energyText;
     [SerializeField] Slider hpSlider;
+    [SerializeField] Slider ultiSlider;
 
     public void UpdateHUD()
     {
-        nameText.text = m_unit.unitName;
-        levelText.text = "Lvl " + m_unit.unitLevel;
-        hpSlider.maxValue = m_unit.maxHP;
-        hpSlider.value = m_unit.currentHP;
-        hpText.text = m_unit.currentHP + "";
+        nameText.text = unit.unitName;
+        levelText.text = "Lvl " + unit.unitLevel;
+        hpSlider.maxValue = unit.maxHP;
+        hpSlider.value = unit.currentHP;
+
+        float hpPercentage = ((float)unit.currentHP / (float)unit.maxHP) * 100;
+        hpText.text = hpPercentage + "%";
+
+        ultiSlider.maxValue = unit.maxEnergy;
+        ultiSlider.value = unit.currentEnergy;
+        energyText.text = unit.currentEnergy + "/" + unit.maxEnergy;
     }
 
     public void LinkHUD(BattleUnit _unit)
     {
-        m_unit = _unit;
+        unit = _unit;
         UpdateHUD();
     }
 

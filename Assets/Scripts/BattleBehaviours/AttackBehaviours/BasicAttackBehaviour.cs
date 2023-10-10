@@ -21,9 +21,12 @@ public class BasicAttackBehaviour : AttackBehaviour
         // Apply Variance
         int iAttackDamage = iBaseDamage + Random.Range(iVarianceLow, iVarianceHigh) - _opposingUnit.blockMod;
 
-        if (iAttackDamage < 0)
+        // If damage is BLOCKED
+        if (iAttackDamage <= 0)
+        {
+            
             iAttackDamage = 0;
-
+        }
         // Apply Total Damage
         _opposingUnit.TakeDamage(iAttackDamage);
 

@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0964c8706175c704e9cfcea91e238297, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f48f3caa196576409bbb7d5af401e8e, type: 3}
   m_Name: RandomBattleStrategy
   m_EditorClassIdentifier: 

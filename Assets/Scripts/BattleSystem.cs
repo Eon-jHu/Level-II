@@ -25,13 +25,14 @@ public class BattleSystem : MonoBehaviour
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
 
-    [SerializeField] TextMeshProUGUI dialogueText;
-
     public BattleHUD playerHUD;
     public BattleHUD enemyHUD;
 
     BattleUnit playerBattleUnit;
     BattleUnit enemyBattleUnit;
+
+    [SerializeField] TextMeshProUGUI dialogueText;
+    DialogueHelper dialogueHelper;
 
     List<string> battleScript = new List<string>();
     List<BattleHUD> battleHUDRefs = new List<BattleHUD>();
@@ -43,7 +44,7 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(SetupBattle()); 
     }
 
-    // ============== BATTLE STATE FUNCTIONS ==============
+    // ================== BATTLE STATE FUNCTIONS ==================
 
     IEnumerator SetupBattle()
     {
@@ -57,9 +58,12 @@ public class BattleSystem : MonoBehaviour
         playerHUD.LinkHUD(playerBattleUnit);
         enemyHUD.LinkHUD(enemyBattleUnit);
 
-        SetupBattleDialogue();
+        dialogueHelper = new DialogueHelper();
+        dialogueHelper.LinkTextField(dialogueText);
+
+        dialogueHelper.SetupBattleDialogue(enemyBattleUnit.unitName);
         yield return new WaitForSeconds(1.5f);
-        ReadyForActionsDialogue();
+        dialogueHelper.ReadyForActionsDialogue();
         yield return new WaitForSeconds(0.5f);
 
         battleState = EBattleState.READY;
@@ -72,69 +76,122 @@ public class BattleSystem : MonoBehaviour
         // Change BattleState
         battleState = EBattleState.RESOLVING;
 
-        enemyBattleUnit.ExecuteBattleStrategy(enemyBattleUnit.prevAction, playerBattleUnit.prevAction);
+        enemyBattleUnit.ExecuteBattleStrategy(playerBattleUnit.prevAction);
 
         // Battle Order: Ultis >> Blocks >> Attacks >> Charges >> CleanUp
-        //ResolveUltis(playerBattleUnit, enemyBattleUnit);
-        ResolveBlocks();
-        ResolveAttacks();
-        //ResolveCharges();
+        ResolveUlti(playerBattleUnit, enemyBattleUnit, enemyHUD);
+        ResolveUlti(enemyBattleUnit, playerBattleUnit, playerHUD);
+
+        // Check life after ulti
+        if (CheckAlive())
+        {
+            ResolveBlock(playerBattleUnit);
+            ResolveBlock(enemyBattleUnit);
+
+            ResolveAttack(playerBattleUnit, enemyBattleUnit, enemyHUD);
+            ResolveAttack(enemyBattleUnit, playerBattleUnit, playerHUD);
+
+            ResolveSuccessfulBlock(playerBattleUnit, enemyBattleUnit, playerHUD);
+            ResolveSuccessfulBlock(enemyBattleUnit, playerBattleUnit, enemyHUD);
+
+            ResolveCharge(playerBattleUnit, playerHUD);
+            ResolveCharge(enemyBattleUnit, enemyHUD);
+        }
 
         StartCoroutine(ResolveActions());
     }
 
+    private bool CheckAlive()
+    {
+        if (!playerBattleUnit.isAlive)
+        {
+            battleState = EBattleState.LOST;
+            return false;
+        }
+        else if (!enemyBattleUnit.isAlive)
+        {
+            battleState = EBattleState.WON;
+            return false;
+        }
+
+        return true;
+    }
+
+    void ResolveUlti(BattleUnit _thisUnit, BattleUnit _opposingUnit, BattleHUD _opposingBattleHUD)
+    {
+        if (_thisUnit.currentAction == EActionType.ULTING)
+        {
+            Debug.Log(_thisUnit.unitName + " ultis");
+            int iDamageCheck = _thisUnit.Ulti(_opposingUnit);
+            Debug.Log(_thisUnit.unitName + "'s damage = " + iDamageCheck);
+
+            // Add to resolution chain
+            battleScript.Add(dialogueHelper.UltiScript(_thisUnit.unitName, iDamageCheck));
+            battleHUDRefs.Add(_opposingBattleHUD);
+        }
+    }
+
+    void ResolveBlock(BattleUnit _unit)
+    {
+        if (_unit.currentAction == EActionType.BLOCKING)
+        {
+            Debug.Log(_unit.unitName + " blocks");
+            _unit.Block();
+
+            // Add to resolution chain
+            battleScript.Add(dialogueHelper.BlockScript(_unit.unitName));
+            battleHUDRefs.Add(null);
+        }
+    }
+
+    void ResolveAttack(BattleUnit _thisUnit, BattleUnit _opposingUnit, BattleHUD _opposingBattleHUD)
+    {
+        if (_thisUnit.currentAction == EActionType.ATTACKING)
+        {
+            Debug.Log(_thisUnit.unitName + " attacks");
+            int iDamageCheck = _thisUnit.Attack(_opposingUnit);
+            Debug.Log(_thisUnit.unitName + "'s damage = " + iDamageCheck);
+
+            // Add to resolution chain
+            battleScript.Add(dialogueHelper.AttackScript(_thisUnit.unitName, iDamageCheck));
+            battleHUDRefs.Add(_opposingBattleHUD);
+        }
+    }
+    void ResolveSuccessfulBlock(BattleUnit _thisUnit, BattleUnit _opposingUnit, BattleHUD _thisUnitHUD)
+    {
+        if (_thisUnit.currentAction == EActionType.BLOCKING && _opposingUnit.currentAction == EActionType.ATTACKING)
+        {
+            // Check for no damage
+            if (!_thisUnit.isHit)
+            {
+                // Apply successful block bonus
+                _thisUnit.SucceedBlock();
+
+                // Add to resolution chain
+                battleScript.Add(dialogueHelper.SuccessfulBlockScript(_thisUnit.unitName));
+                battleHUDRefs.Add(_thisUnitHUD);
+            }
+        }
+    }
+
+    void ResolveCharge(BattleUnit _unit, BattleHUD _unitHUD)
+    {
+        if (_unit.currentAction == EActionType.CHARGING)
+        {
+            Debug.Log(_unit + " charges");
+            bool isChargeSuccessful = _unit.Charge();
+
+            // Add to resolution chain
+            battleScript.Add(dialogueHelper.ChargeScript(_unit.unitName, isChargeSuccessful));
+            battleHUDRefs.Add(_unitHUD);
+        }
+    }
+
+    // ================== VISUAL UPDATE FUNCTIONS ==================
+
     void UpdateBattleHUD(BattleHUD _HUD)
     {
         _HUD.UpdateHUD();
-    }
-
-    void ResolveBlocks()
-    {
-        if (playerBattleUnit.currentAction == EActionType.BLOCKING)
-        {
-            Debug.Log("Player blocks");
-            playerBattleUnit.Block();
-
-            // Add to resolution chain
-            battleScript.Add(BlockDialogue(playerBattleUnit.unitName));
-            battleHUDRefs.Add(enemyHUD); // opposing unit's HP; since no diff
-        }
-
-        if (enemyBattleUnit.currentAction == EActionType.BLOCKING)
-        {
-            Debug.Log("Enemy blocks");
-            enemyBattleUnit.Block();
-
-            // Add to resolution chain
-            battleScript.Add(BlockDialogue(enemyBattleUnit.unitName));
-            battleHUDRefs.Add(playerHUD); // opposing unit's HP; since no diff
-        }
-    }
-
-
-    void ResolveAttacks()
-    {
-        if (playerBattleUnit.currentAction == EActionType.ATTACKING)
-        {
-            Debug.Log("Player attacks");
-            int iDamageCheck = playerBattleUnit.Attack(enemyBattleUnit);
-            Debug.Log("Player damage = " + iDamageCheck);
-
-            // Add to resolution chain
-            battleScript.Add(AttackDialogue(playerBattleUnit.unitName, iDamageCheck));
-            battleHUDRefs.Add(enemyHUD);
-        }
-
-        if (enemyBattleUnit.currentAction == EActionType.ATTACKING)
-        {
-            Debug.Log("Enemy attacks");
-            int iDamageCheck = enemyBattleUnit.Attack(playerBattleUnit);
-            Debug.Log("Enemy damage = " + iDamageCheck);
-
-            // Add to resolution chain
-            battleScript.Add(AttackDialogue(enemyBattleUnit.unitName, iDamageCheck));
-            battleHUDRefs.Add(playerHUD);
-        }
     }
 
     IEnumerator ResolveActions()
@@ -157,8 +214,8 @@ public class BattleSystem : MonoBehaviour
     private void CleanUp()
     {
         // Clean up step
-        playerBattleUnit.blockMod = 0;
-        enemyBattleUnit.blockMod = 0;
+        playerBattleUnit.EndPhase(dialogueHelper);
+        enemyBattleUnit.EndPhase(dialogueHelper);
 
         // Clear lists
         battleHUDRefs.Clear();
@@ -168,54 +225,15 @@ public class BattleSystem : MonoBehaviour
         Debug.Log(enemyBattleUnit.unitName + " is dead: " + !enemyBattleUnit.isAlive);
 
         // Check for statuses
-        if (!playerBattleUnit.isAlive)
-        {   
-            battleState = EBattleState.LOST;
-            EndBattle();
-        }
-        else if (!enemyBattleUnit.isAlive)
-        {
-            battleState = EBattleState.WON;
-            EndBattle();
-        }
-        else
+        if (CheckAlive())
         {
             // Reset turn
             battleState = EBattleState.READY;
-            ReadyForActionsDialogue();
-        }
-    }
-
-    // ============== DIALOGUE FUNCTIONS ==============
-
-    private void SetupBattleDialogue()
-    {
-        dialogueText.text = "The " + enemyBattleUnit.unitName + " approaches...";
-    }
-
-    private void ReadyForActionsDialogue()
-    {
-        dialogueText.text = "You're in battle.\nWhat will you do?";
-    }
-
-    private string BlockDialogue(string _unitName)
-    {
-        return _unitName + " blocks.";
-    }
-
-    private string AttackDialogue(string _unitName, int _damage)
-    {
-        if (_damage < 0)
-        {
-            return _unitName + " missed on their attack.";
-        }
-        else if (_damage == 0)
-        {
-            return _unitName + " dealt no damage on their attack.";
+            dialogueHelper.ReadyForActionsDialogue();
         }
         else
         {
-            return _unitName + "'s attack hits for " + _damage + " damage!";
+            EndBattle();
         }
     }
 
@@ -223,15 +241,15 @@ public class BattleSystem : MonoBehaviour
     {
         if (battleState == EBattleState.WON)
         {
-            dialogueText.text = "You won the battle!";
+            dialogueHelper.Display("You won the battle!") ;
         }
         else if (battleState == EBattleState.LOST)
         {
-            dialogueText.text = "You were defeated...";
+            dialogueHelper.Display("You were defeated...");
         }
     }
 
-    // ============== BUTTON FUNCTIONS ==============
+    // ================== BUTTON FUNCTIONS ==================
 
     public void OnAttackButton()
     {
@@ -259,7 +277,33 @@ public class BattleSystem : MonoBehaviour
         PerformBattle();
     }
 
-    // ============== OTHER FUNCTIONS ==============
+    public void OnChargeButton()
+    {
+        if (battleState != EBattleState.READY)
+        {
+            return;
+        }
+
+        playerBattleUnit.prevAction = playerBattleUnit.currentAction;
+        playerBattleUnit.currentAction = EActionType.CHARGING;
+
+        PerformBattle();
+    }
+
+    public void OnUltiButton()
+    {
+        if (battleState != EBattleState.READY)
+        {
+            return;
+        }
+
+        playerBattleUnit.prevAction = playerBattleUnit.currentAction;
+        playerBattleUnit.currentAction = EActionType.ULTING;
+
+        PerformBattle();
+    }
+
+    // ================== OTHER FUNCTIONS ==================
 
     // Update is called once per frame
     void Update()
