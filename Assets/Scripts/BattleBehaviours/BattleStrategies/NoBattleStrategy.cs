@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "NoBattleStrategy", menuName = "Battle Strategies/None")]
 public class NoBattleStrategy : BattleStrategy
 {
-    public override EActionType Execute(EActionType _thisPrevAction, EActionType _opponentPrevAction)
+    public override EActionType Execute(BattleUnit _thisUnit, EActionType _opponentPrevAction)
     {
         return EActionType.NONE;
     }

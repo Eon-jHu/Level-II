@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc2579acd0ccbc44280d6cd08e1718e3, type: 3}
-  m_Name: NoBattleStrategy
+  m_Script: {fileID: 11500000, guid: cf14355619db3c945835828dabd09641, type: 3}
+  m_Name: BasicUltiBehaviour
   m_EditorClassIdentifier: 

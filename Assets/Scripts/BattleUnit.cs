@@ -20,31 +20,49 @@ public class BattleUnit : MonoBehaviour
     public string unitName;
     public int unitLevel;
 
-    public int maxHP;
-    public int currentHP;
-    public bool isAlive = true;
-
     // Battle Stats
     public int attackMod;     // Determines attack accuracy
     public int blockMod;      // Determines block effectiveness
-    public int chargeLevels;  // Determiknes ulti charge time
+    public int maxHP;
+    public int currentHP;
+    public int maxEnergy;  // Determines ulti charge time
+    public int currentEnergy;
 
-    public BattleHUD unitHUD;
+    public bool isAlive = true;
+    public bool isHit = false;
 
     // Battle Behaviours
     [SerializeField] AttackBehaviour attackBehaviour;
     [SerializeField] BlockBehaviour blockBehaviour;
     // ChargeBehaviour chargeBehaviour;
-    // UltBehaviour ultiBehaviour;
+    [SerializeField] UltiBehaviour ultiBehaviour;
 
     [SerializeField] BattleStrategy battleStrategy;
 
     public EActionType prevAction = EActionType.NONE;
     public EActionType currentAction = EActionType.NONE;
 
-    public void ExecuteBattleStrategy(EActionType _selfPrevAction, EActionType _opponentPrevAction)
+    public void ExecuteBattleStrategy(EActionType _opponentPrevAction)
     {
-        currentAction = battleStrategy.Execute(_selfPrevAction, _opponentPrevAction);
+        currentAction = battleStrategy.Execute(this, _opponentPrevAction);
+    }
+
+    // ================= BATTLE BEHAVIOURS =================
+
+    /// <summary>
+    /// Resolves an ulti on another BattleUnit
+    /// </summary>
+    /// <returns>(-1) if not enough energy, else returns damage dealt</returns>
+    public int Ulti(BattleUnit _opposingUnit)
+    {
+        if (currentEnergy >= maxEnergy)
+        {
+            return ultiBehaviour.ApplyUlti(this, _opposingUnit);
+        }
+        // NOT enough energy
+        {
+            return -1;
+        }
     }
 
     /// <summary>
@@ -70,9 +88,35 @@ public class BattleUnit : MonoBehaviour
         blockBehaviour.Block(this);
     }
 
+    // Default Parry Behaviour
+    public void SucceedBlock()
+    {
+        if (currentEnergy < maxEnergy)
+        {
+            currentEnergy ++;
+        }
+    }
+
+    // Default Charge Behaviour
+    public bool Charge()
+    {
+        if (currentEnergy < maxEnergy && !isHit)
+        {
+            currentEnergy += 2;
+            return true;
+        }
+
+        return false;
+    }
+
     public void TakeDamage(int damage)
     {
         currentHP -= damage;
+
+        if (damage > 0)
+        {
+            isHit = true;
+        }
 
         if (currentHP <= 0)
         {
@@ -81,4 +125,11 @@ public class BattleUnit : MonoBehaviour
             Debug.Log(unitName + " has died.");
         }
     }
+
+    public void EndPhase(DialogueHelper _dialogueHelper)
+    {
+        blockMod = 0;
+        isHit = false;
+    }
 }
+
