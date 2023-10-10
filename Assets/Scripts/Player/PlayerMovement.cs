@@ -1,69 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed;
+    [SerializeField] private int speed = 5;
 
-    public LayerMask solidObjectsLayer;
+    private Vector2 movement;
+    private Rigidbody2D rb;
 
-    private bool isMoving;
-
-    private Vector2 input;
-
-    private void Update()
+    private void Awake()
     {
-        if (!isMoving) // Checking if the player is moving.
-        {
-            // Bound to arrowkeys:
-            input.x = Input.GetAxisRaw("Horizontal"); // 1 for right, -1 for left.
-            input.y = Input.GetAxisRaw("Vertical");
-
-            if (input.x != 0) // Prevents diagonal movement.
-            {
-                input.y = 0;
-            }
-
-            if (input != Vector2.zero)
-            {
-                var targetPos = transform.position;
-                targetPos.x += input.x;
-                targetPos.y += input.y;
-
-                if (IsWalkable(targetPos))
-                {
-                    StartCoroutine(Move(targetPos)); // Only moving if there is no collision.
-                }
-            }
-        }
+        rb = GetComponent<Rigidbody2D>(); // Looks for rigid body.
+    }
+    private void OnMovement(InputValue value)
+    {
+        movement = value.Get<Vector2>();
     }
 
-    IEnumerator Move(Vector3 targetPos)
+    private void FixedUpdate() // For physics based & rigid body
     {
-        isMoving = true;
+        // Variant 1:
+        rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);     
 
-        while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon) // Checking if difference between player current position and target position is <.
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime); // Move player towards target position.
-            yield return null; // Continues to repeat until the difference between player position and target position is negligible.
-        }
-        transform.position = targetPos;
+        // Variant 2:
+        //if (movement.x != 0 || movement.y != 0)
+        //{
+        //    rb.velocity = movement * speed;
+        //}
 
-        isMoving = false;
+        // Variant 3:
+        // rb.AddForce(movement * speed);
+        
     }
-
-    // Checking for collision:
-    private bool IsWalkable(Vector3 targetPos)
-    {
-        if (Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectsLayer) != null) // Checking if there is a solid object.
-        {
-            return false; // Tile is not walkable.
-        }
-        else
-        {
-            return true;
-        }
-    }
-
 }
