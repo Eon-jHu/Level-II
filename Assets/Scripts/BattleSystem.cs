@@ -255,7 +255,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator ReturnToWorld(string _worldName)
     {
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(_worldName);
+        SceneManager.UnloadSceneAsync(_worldName);
     }
 
     // ================== BUTTON FUNCTIONS ==================
