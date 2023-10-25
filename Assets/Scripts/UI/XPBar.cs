@@ -21,6 +21,8 @@ public class XPBar : MonoBehaviour
 
     private float currentAmount = 0;
 
+    private float MaxXP = 240.0f;
+
     private Coroutine routine;
 
     void OnEnable()
@@ -44,7 +46,7 @@ public class XPBar : MonoBehaviour
         {
             StopCoroutine(routine);
         }
-        float target = currentAmount + amount;
+        float target = currentAmount + (amount/MaxXP);
         routine = StartCoroutine(FillRoutine(target, duration));
     }
 

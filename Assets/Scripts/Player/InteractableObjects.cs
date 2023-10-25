@@ -21,7 +21,7 @@ public class InteractableObjects : CollidableObjects
         {
             z_Interacted = true;
             Debug.Log("INTERACT WITH " + name);
-            SceneManager.LoadScene("BattleScene", LoadSceneMode.Additive);
+            SceneManager.LoadScene("BattleScene"); //, LoadSceneMode.Additive);
         }
         
     }

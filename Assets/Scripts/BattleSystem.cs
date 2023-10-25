@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ public enum EBattleState
 
 public class BattleSystem : MonoBehaviour
 {
+    XPBar expBar;
+
     public EBattleState battleState;
 
     public GameObject playerPrefab;
@@ -250,12 +253,16 @@ public class BattleSystem : MonoBehaviour
         }
 
         StartCoroutine(ReturnToWorld("MainWorld"));
+
+        // testing awarding XP after battle
+        expBar.UpdateProgress(40.0f); // updates one 'notch' (each notch worth 40 total XP)
     }
 
     IEnumerator ReturnToWorld(string _worldName)
     {
         yield return new WaitForSeconds(2f);
-        SceneManager.UnloadSceneAsync(_worldName);
+        // SceneManager.UnloadSceneAsync(_worldName);
+        SceneManager.LoadScene(_worldName);
     }
 
     // ================== BUTTON FUNCTIONS ==================
