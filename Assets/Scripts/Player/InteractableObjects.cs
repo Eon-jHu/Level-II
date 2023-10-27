@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class InteractableObjects : CollidableObjects
 {
     private bool z_Interacted = false;
+
+    [SerializeField] private bool IsNotDestroyable = false;
      protected override void OnCollided(GameObject collidedObject)
     {
         if (Input.GetKey(KeyCode.E))
@@ -33,12 +35,11 @@ public class InteractableObjects : CollidableObjects
 
     protected virtual void OnAttack()
     {
-        if (!z_Interacted)
+        if (!z_Interacted && !IsNotDestroyable)
         {
             z_Interacted = true;
             Debug.Log("ATTACK");
             Destroy(gameObject);
         }
-
     }
 }

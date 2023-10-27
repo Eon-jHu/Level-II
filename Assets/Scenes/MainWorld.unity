@@ -26579,6 +26579,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  IsNotDestroyable: 1
 --- !u!1001 &1641534999
 PrefabInstance:
   m_ObjectHideFlags: 0
