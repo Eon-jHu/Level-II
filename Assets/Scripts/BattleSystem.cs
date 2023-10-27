@@ -19,7 +19,8 @@ public enum EBattleState
 
 public class BattleSystem : MonoBehaviour
 {
-    XPBar expBar;
+    [SerializeField]
+    XPBar xpBar;
 
     public EBattleState battleState;
 
@@ -253,16 +254,15 @@ public class BattleSystem : MonoBehaviour
         }
 
         StartCoroutine(ReturnToWorld("MainWorld"));
-
-        // Testing awarding XP after battle
-        expBar.UpdateProgress(40.0f); // updates one 'notch' (each notch worth 40 total XP)
     }
 
     IEnumerator ReturnToWorld(string _worldName)
     {
         yield return new WaitForSeconds(2f);
-        // SceneManager.UnloadSceneAsync(_worldName);
-        SceneManager.LoadScene(_worldName);
+        SceneManager.LoadSceneAsync("MainWorld");
+
+        // Testing awarding XP after battle
+        xpBar.UpdateProgress(40.0f); // updates one 'notch' (each notch worth 40 total XP)
     }
 
     // ================== BUTTON FUNCTIONS ==================
@@ -322,7 +322,7 @@ public class BattleSystem : MonoBehaviour
     // ================== OTHER FUNCTIONS ==================
 
     // Update is called once per frame
-    void Update()
+    public void HandleUpdate()
     {
         // No need for Update() since it's turn-based.
     }
