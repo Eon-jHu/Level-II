@@ -13,6 +13,11 @@ public class InteractableObjects : CollidableObjects
         {
             OnInteract();
         }
+
+        if (Input.GetMouseButton(0))
+        {
+            OnAttack();
+        }
     }
 
     protected virtual void OnInteract()
@@ -24,5 +29,16 @@ public class InteractableObjects : CollidableObjects
             SceneManager.LoadScene("BattleScene"); //, LoadSceneMode.Additive);
         }
         
+    }
+
+    protected virtual void OnAttack()
+    {
+        if (!z_Interacted)
+        {
+            z_Interacted = true;
+            Debug.Log("ATTACK");
+            Destroy(gameObject);
+        }
+
     }
 }
