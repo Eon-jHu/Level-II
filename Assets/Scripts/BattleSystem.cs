@@ -254,7 +254,7 @@ public class BattleSystem : MonoBehaviour
 
         StartCoroutine(ReturnToWorld("MainWorld"));
 
-        // testing awarding XP after battle
+        // Testing awarding XP after battle
         expBar.UpdateProgress(40.0f); // updates one 'notch' (each notch worth 40 total XP)
     }
 
