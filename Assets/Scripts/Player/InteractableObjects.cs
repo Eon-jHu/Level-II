@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class InteractableObjects : CollidableObjects
 {
     private bool z_Interacted = false;
+
+    [SerializeField] private bool IsNotDestroyable = false;
      protected override void OnCollided(GameObject collidedObject)
     {
         if (Input.GetKey(KeyCode.E))
@@ -20,6 +22,11 @@ public class InteractableObjects : CollidableObjects
             }
 
         }
+
+        if (Input.GetMouseButton(0))
+        {
+            OnAttack();
+        }
     }
 
     protected virtual void OnInteract(PlayerController _player)
@@ -30,6 +37,16 @@ public class InteractableObjects : CollidableObjects
             Debug.Log("Player Interacted With " + name);
 
             _player.TriggerOnEncountered();
+        }
+    }
+
+    protected virtual void OnAttack()
+    {
+        if (!z_Interacted && !IsNotDestroyable)
+        {
+            z_Interacted = true;
+            Debug.Log("ATTACK");
+            Destroy(gameObject);
         }
     }
 }
