@@ -27,7 +27,7 @@ public class InteractableObjects : CollidableObjects
         if (!z_Interacted)
         {
             z_Interacted = true;
-            Debug.Log("PLAYER INTERACTED WITH " + name);
+            Debug.Log("Player Interacted With " + name);
 
             _player.TriggerOnEncountered();
         }

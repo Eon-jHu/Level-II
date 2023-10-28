@@ -24,7 +24,7 @@ public class BattleHUD : MonoBehaviour
         float hpPercentage = ((float)unit.currentHP / (float)unit.maxHP) * 100;
         hpText.text = hpPercentage + "%";
         // Smoothly update the HP bar
-        yield return ChangeValueSmoothly(hpSlider, hpSlider.value, (float)unit.currentHP);
+        yield return ChangeValueSmoothly(hpSlider, (float)unit.currentHP);
 
 
         // ----- ----- ----- UPDATING ENERGY ----- ----- -----
@@ -32,7 +32,7 @@ public class BattleHUD : MonoBehaviour
         energyText.text = unit.currentEnergy + "/" + unit.maxEnergy;
 
         // Smoothly update the energy bar
-        yield return ChangeValueSmoothly(ultiSlider, ultiSlider.value, (float)unit.currentEnergy);
+        yield return ChangeValueSmoothly(ultiSlider, (float)unit.currentEnergy);
 
     }
 
@@ -42,15 +42,17 @@ public class BattleHUD : MonoBehaviour
         yield return UpdateHUD();
     }
 
-    private IEnumerator ChangeValueSmoothly(Slider _slider, float _currentValue, float _finalValue)
+    private IEnumerator ChangeValueSmoothly(Slider _slider, float _finalValue)
     {
-        float fChangeHP = _currentValue - _finalValue;
+        // fChangeHP is negative if it's healing
+        float fChangeHP = _slider.value - _finalValue;
 
         // While the changing HP values isn't equal to the input hp value
-        while (fChangeHP > Mathf.Epsilon)
+        while (_slider.value - _finalValue > Mathf.Epsilon)
         {
             // Animate HP change a small amount per frame
             _slider.value -= fChangeHP * Time.deltaTime;
+
             yield return null;
         }
 

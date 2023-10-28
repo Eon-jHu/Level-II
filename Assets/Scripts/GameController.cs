@@ -29,11 +29,15 @@ public class GameController : MonoBehaviour
 
     void StartBattle()
     {
+        Debug.Log("StartBattle triggered...");
+
         m_State = GameState.Battle;
         m_BattleSystem.gameObject.SetActive(true);
         m_WorldCamera.gameObject.SetActive(false);
+        m_XPBar.gameObject.SetActive(false);
 
-        m_BattleSystem.StartBattle();
+        // Change Music
+        m_BattleSystem.Begin();
         m_AudioManager.SetMusic(GameState.Battle);
     }
     private void EndBattle(float _xp)
@@ -41,6 +45,7 @@ public class GameController : MonoBehaviour
         m_State = GameState.FreeRoam;
         m_BattleSystem.gameObject.SetActive(false);
         m_WorldCamera.gameObject.SetActive(true);
+        m_XPBar.gameObject.SetActive(true);
 
         // Update XP Bar
         m_XPBar.UpdateProgress(_xp);

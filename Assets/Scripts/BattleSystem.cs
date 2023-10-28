@@ -34,7 +34,7 @@ public class BattleSystem : MonoBehaviour
     BattleUnit enemyBattleUnit;
 
     [SerializeField] TextMeshProUGUI dialogueText;
-    DialogueHelper dialogueHelper;
+    [SerializeField] DialogueHelper dialogueHelper;
 
     List<string> battleScript = new List<string>();
     List<BattleHUD> battleHUDRefs = new List<BattleHUD>();
@@ -43,7 +43,7 @@ public class BattleSystem : MonoBehaviour
     public event Action<float> OnBattleOver;
 
     // Called whenever a new battle starts
-    public void StartBattle()
+    public void Begin()
     {
         battleState = EBattleState.START;
         StartCoroutine(SetupBattle()); 
@@ -53,6 +53,8 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SetupBattle()
     {
+        Debug.Log("Setting up battle...");
+
         GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
         GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
 
@@ -60,22 +62,19 @@ public class BattleSystem : MonoBehaviour
         enemyBattleUnit = enemyGO.GetComponent<BattleUnit>();
 
         // Initialize HUDs
-        playerHUD.LinkHUD(playerBattleUnit);
-        enemyHUD.LinkHUD(enemyBattleUnit);
+        StartCoroutine(playerHUD.LinkHUD(playerBattleUnit));
+        StartCoroutine(enemyHUD.LinkHUD(enemyBattleUnit));
 
-        dialogueHelper = new DialogueHelper();
         dialogueHelper.LinkTextField(dialogueText);
 
         // Dialogues For Initializing Battle
-        dialogueHelper.SetupBattleDialogue(enemyBattleUnit.unitName);
+        StartCoroutine(dialogueHelper.SetupBattleDialogue(enemyBattleUnit.unitName));
         yield return new WaitForSeconds(1.5f);
-        dialogueHelper.ReadyForActionsDialogue();
+        StartCoroutine(dialogueHelper.ReadyForActionsDialogue());
         yield return new WaitForSeconds(0.5f);
 
         battleState = EBattleState.READY;
     }
-
-    // TODO: Make into a coroutine.
 
     void PerformBattle()
     {
@@ -204,11 +203,11 @@ public class BattleSystem : MonoBehaviour
     {
         for (int i = 0; i < battleScript.Count; i++)
         {
-            dialogueHelper.TypeDialogue(battleScript[i]);
+            StartCoroutine(dialogueHelper.TypeDialogue(battleScript[i]));
 
             if (battleHUDRefs[i] != null)
             {
-                UpdateBattleHUD(battleHUDRefs[i]);
+                StartCoroutine(UpdateBattleHUD(battleHUDRefs[i]));
             }
 
             yield return new WaitForSeconds(2f);
@@ -235,7 +234,7 @@ public class BattleSystem : MonoBehaviour
         {
             // Reset turn
             battleState = EBattleState.READY;
-            dialogueHelper.ReadyForActionsDialogue();
+            StartCoroutine(dialogueHelper.ReadyForActionsDialogue());
         }
         else
         {
@@ -249,11 +248,11 @@ public class BattleSystem : MonoBehaviour
 
         if (battleState == EBattleState.WON)
         {
-            dialogueHelper.TypeDialogue("You won the battle!");
+            StartCoroutine(dialogueHelper.TypeDialogue("You won the battle!"));
         }
         else if (battleState == EBattleState.LOST)
         {
-            dialogueHelper.TypeDialogue("You were defeated...");
+            StartCoroutine(dialogueHelper.TypeDialogue("You were defeated..."));
             bHasPlayerWon = false;
             xpOnWinBattle = 0.0f;
         }

@@ -5,12 +5,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueHelper
+public class DialogueHelper : MonoBehaviour
 {
     private TextMeshProUGUI textMeshProField;
 
     public void LinkTextField(TextMeshProUGUI _dialogueText)
     {
+        Debug.Log("Linking Text Field...");
         textMeshProField = _dialogueText;
     }
 
@@ -18,6 +19,8 @@ public class DialogueHelper
 
     public IEnumerator TypeDialogue(string _dialogueText)
     {
+        Debug.Log("Typing...");
+
         textMeshProField.text = "";
 
         foreach (var letter in _dialogueText.ToCharArray())
@@ -29,14 +32,14 @@ public class DialogueHelper
 
     // ============== BATTLE DIALOGUE ==============
 
-    public void SetupBattleDialogue(string _enemyUnitName)
+    public IEnumerator SetupBattleDialogue(string _enemyUnitName)
     {
-        TypeDialogue("The " + _enemyUnitName + " approaches...");
+        yield return TypeDialogue("The " + _enemyUnitName + " approaches...");
     }
 
-    public void ReadyForActionsDialogue()
+    public IEnumerator ReadyForActionsDialogue()
     {
-        TypeDialogue("You're in battle.\nWhat will you do?");
+        yield return TypeDialogue("You're in battle.\nWhat will you do?");
     }
 
     public string UltiScript(string _unitName, int _damage)
