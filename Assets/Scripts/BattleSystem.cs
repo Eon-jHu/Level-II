@@ -69,17 +69,19 @@ public class BattleSystem : MonoBehaviour
 
         // Dialogues For Initializing Battle
         StartCoroutine(dialogueHelper.SetupBattleDialogue(enemyBattleUnit.unitName));
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.0f);
         StartCoroutine(dialogueHelper.ReadyForActionsDialogue());
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.0f);
 
         battleState = EBattleState.READY;
     }
 
-    void PerformBattle()
+    IEnumerator PerformBattle()
     {
         // Change BattleState
         battleState = EBattleState.RESOLVING;
+
+        yield return new WaitForSeconds(2.5f);
 
         enemyBattleUnit.ExecuteBattleStrategy(playerBattleUnit.prevAction);
 
@@ -213,10 +215,10 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(2f);
         }
 
-        CleanUp();
+        StartCoroutine(CleanUp());
     }
 
-    private void CleanUp()
+    private IEnumerator CleanUp()
     {
         // Clean up step
         playerBattleUnit.EndPhase(dialogueHelper);
@@ -233,13 +235,15 @@ public class BattleSystem : MonoBehaviour
         if (CheckAlive())
         {
             // Reset turn
-            battleState = EBattleState.READY;
             StartCoroutine(dialogueHelper.ReadyForActionsDialogue());
+            battleState = EBattleState.READY;
         }
         else
         {
             EndBattle();
         }
+
+        yield return null;
     }
 
     private void EndBattle()
@@ -274,11 +278,15 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
+        // Change BattleState
+        battleState = EBattleState.RESOLVING;
+
+        Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.ATTACKING;
 
-        PerformBattle();
+        StartCoroutine(PerformBattle());
     }
 
     public void OnBlockButton()
@@ -287,11 +295,15 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
+        // Change BattleState
+        battleState = EBattleState.RESOLVING;
+
+        Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.BLOCKING;
 
-        PerformBattle();
+        StartCoroutine(PerformBattle());
     }
 
     public void OnChargeButton()
@@ -300,11 +312,15 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
+        // Change BattleState
+        battleState = EBattleState.RESOLVING;
+
+        Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.CHARGING;
 
-        PerformBattle();
+        StartCoroutine(PerformBattle());
     }
 
     public void OnUltiButton()
@@ -313,11 +329,15 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
+        // Change BattleState
+        battleState = EBattleState.RESOLVING;
+
+        Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.ULTING;
 
-        PerformBattle();
+        StartCoroutine(PerformBattle());
     }
 
     // ================== OTHER FUNCTIONS ==================
