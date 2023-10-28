@@ -39,6 +39,9 @@ public class DialogueHelper : MonoBehaviour
 
     public IEnumerator ReadyForActionsDialogue()
     {
+        // Pause to not double-write things
+        yield return new WaitForSeconds(1.0f);
+
         yield return TypeDialogue("You're in battle.\nWhat will you do?");
     }
 
