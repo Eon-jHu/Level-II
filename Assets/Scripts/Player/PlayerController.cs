@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private int speed = 5;
 
@@ -13,6 +14,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     private Animator animator;
+
+    // Start the BattleSystem
+    public event Action OnEncountered;
 
     private void Awake()
     {
@@ -53,7 +57,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void FixedUpdate() // For physics based & rigid body
+    // Trigger OnEncountered
+    public void TriggerOnEncountered()
+    {
+        if (OnEncountered != null)
+        {
+            OnEncountered.Invoke(); 
+        }
+    }
+
+    public void HandleUpdate() // For physics based & rigid body
     {
         // Variant 1:
         rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);     

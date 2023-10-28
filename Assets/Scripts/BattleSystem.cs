@@ -19,8 +19,6 @@ public enum EBattleState
 
 public class BattleSystem : MonoBehaviour
 {
-    XPBar expBar;
-
     public EBattleState battleState;
 
     public GameObject playerPrefab;
@@ -36,13 +34,16 @@ public class BattleSystem : MonoBehaviour
     BattleUnit enemyBattleUnit;
 
     [SerializeField] TextMeshProUGUI dialogueText;
-    DialogueHelper dialogueHelper;
+    [SerializeField] DialogueHelper dialogueHelper;
 
     List<string> battleScript = new List<string>();
     List<BattleHUD> battleHUDRefs = new List<BattleHUD>();
 
-    // Start is called before the first frame update
-    void Start()
+    public float xpOnWinBattle = 40.0f; // Default xp for winning a battle
+    public event Action<float> OnBattleOver;
+
+    // Called whenever a new battle starts
+    public void Begin()
     {
         battleState = EBattleState.START;
         StartCoroutine(SetupBattle()); 
@@ -52,6 +53,8 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SetupBattle()
     {
+        Debug.Log("Setting up battle...");
+
         GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
         GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
 
@@ -59,26 +62,26 @@ public class BattleSystem : MonoBehaviour
         enemyBattleUnit = enemyGO.GetComponent<BattleUnit>();
 
         // Initialize HUDs
-        playerHUD.LinkHUD(playerBattleUnit);
-        enemyHUD.LinkHUD(enemyBattleUnit);
+        StartCoroutine(playerHUD.LinkHUD(playerBattleUnit));
+        StartCoroutine(enemyHUD.LinkHUD(enemyBattleUnit));
 
-        dialogueHelper = new DialogueHelper();
         dialogueHelper.LinkTextField(dialogueText);
 
-        dialogueHelper.SetupBattleDialogue(enemyBattleUnit.unitName);
-        yield return new WaitForSeconds(1.5f);
-        dialogueHelper.ReadyForActionsDialogue();
-        yield return new WaitForSeconds(0.5f);
+        // Dialogues For Initializing Battle
+        StartCoroutine(dialogueHelper.SetupBattleDialogue(enemyBattleUnit.unitName));
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(dialogueHelper.ReadyForActionsDialogue());
+        yield return new WaitForSeconds(1.0f);
 
         battleState = EBattleState.READY;
     }
 
-    // TODO: Make into a coroutine.
-
-    void PerformBattle()
+    IEnumerator PerformBattle()
     {
         // Change BattleState
         battleState = EBattleState.RESOLVING;
+
+        yield return new WaitForSeconds(2.5f);
 
         enemyBattleUnit.ExecuteBattleStrategy(playerBattleUnit.prevAction);
 
@@ -193,29 +196,29 @@ public class BattleSystem : MonoBehaviour
 
     // ================== VISUAL UPDATE FUNCTIONS ==================
 
-    void UpdateBattleHUD(BattleHUD _HUD)
+    IEnumerator UpdateBattleHUD(BattleHUD _HUD)
     {
-        _HUD.UpdateHUD();
+        yield return _HUD.UpdateHUD();
     }
 
     IEnumerator ResolveActions()
     {
         for (int i = 0; i < battleScript.Count; i++)
         {
-            dialogueText.text = battleScript[i];
+            StartCoroutine(dialogueHelper.TypeDialogue(battleScript[i]));
 
             if (battleHUDRefs[i] != null)
             {
-                UpdateBattleHUD(battleHUDRefs[i]);
+                StartCoroutine(UpdateBattleHUD(battleHUDRefs[i]));
             }
 
             yield return new WaitForSeconds(2f);
         }
 
-        CleanUp();
+        StartCoroutine(CleanUp());
     }
 
-    private void CleanUp()
+    private IEnumerator CleanUp()
     {
         // Clean up step
         playerBattleUnit.EndPhase(dialogueHelper);
@@ -232,37 +235,39 @@ public class BattleSystem : MonoBehaviour
         if (CheckAlive())
         {
             // Reset turn
+            StartCoroutine(dialogueHelper.ReadyForActionsDialogue());
             battleState = EBattleState.READY;
-            dialogueHelper.ReadyForActionsDialogue();
         }
         else
         {
             EndBattle();
         }
+
+        yield return null;
     }
 
     private void EndBattle()
     {
+        bool bHasPlayerWon = true;
+
         if (battleState == EBattleState.WON)
         {
-            dialogueHelper.Display("You won the battle!") ;
+            StartCoroutine(dialogueHelper.TypeDialogue("You won the battle!"));
         }
         else if (battleState == EBattleState.LOST)
         {
-            dialogueHelper.Display("You were defeated...");
+            StartCoroutine(dialogueHelper.TypeDialogue("You were defeated..."));
+            bHasPlayerWon = false;
+            xpOnWinBattle = 0.0f;
         }
 
-        StartCoroutine(ReturnToWorld("MainWorld"));
-
-        // Testing awarding XP after battle
-        expBar.UpdateProgress(40.0f); // updates one 'notch' (each notch worth 40 total XP)
+        StartCoroutine(ReturnToWorld(bHasPlayerWon));
     }
 
-    IEnumerator ReturnToWorld(string _worldName)
+    IEnumerator ReturnToWorld(bool _hasPlayerWon)
     {
         yield return new WaitForSeconds(2f);
-        // SceneManager.UnloadSceneAsync(_worldName);
-        SceneManager.LoadScene(_worldName);
+        OnBattleOver.Invoke(xpOnWinBattle);
     }
 
     // ================== BUTTON FUNCTIONS ==================
@@ -273,11 +278,15 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
+        // Change BattleState
+        battleState = EBattleState.RESOLVING;
+
+        Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.ATTACKING;
 
-        PerformBattle();
+        StartCoroutine(PerformBattle());
     }
 
     public void OnBlockButton()
@@ -286,11 +295,15 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
+        // Change BattleState
+        battleState = EBattleState.RESOLVING;
+
+        Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.BLOCKING;
 
-        PerformBattle();
+        StartCoroutine(PerformBattle());
     }
 
     public void OnChargeButton()
@@ -299,11 +312,15 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
+        // Change BattleState
+        battleState = EBattleState.RESOLVING;
+
+        Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.CHARGING;
 
-        PerformBattle();
+        StartCoroutine(PerformBattle());
     }
 
     public void OnUltiButton()
@@ -312,17 +329,21 @@ public class BattleSystem : MonoBehaviour
         {
             return;
         }
+        // Change BattleState
+        battleState = EBattleState.RESOLVING;
+
+        Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.ULTING;
 
-        PerformBattle();
+        StartCoroutine(PerformBattle());
     }
 
     // ================== OTHER FUNCTIONS ==================
 
     // Update is called once per frame
-    void Update()
+    public void HandleUpdate()
     {
         // No need for Update() since it's turn-based.
     }
