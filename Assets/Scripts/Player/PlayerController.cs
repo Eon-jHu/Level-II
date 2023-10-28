@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +9,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int speed = 5;
 
     private Vector2 movement;
-
     private Rigidbody2D rb;
 
     private Animator animator;
@@ -38,22 +36,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             animator.SetBool("IsMoving", false);
-        }
-    }
-    IEnumerator Pause()
-    {
-        yield return new WaitForSeconds(0.165f);
-        Debug.Log("Coroutine");
-        animator.SetBool("IsAttacking", false);
-    }
-    private void OnAttack(InputValue value)
-    {
-
-        if (value.isPressed && !animator.GetBool("IsAttacking"))
-        {
-            animator.SetBool("IsAttacking", true);
-
-            StartCoroutine(Pause());
         }
     }
 
