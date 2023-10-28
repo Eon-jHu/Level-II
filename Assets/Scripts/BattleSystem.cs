@@ -19,9 +19,6 @@ public enum EBattleState
 
 public class BattleSystem : MonoBehaviour
 {
-    [SerializeField]
-    XPBar xpBar;
-
     public EBattleState battleState;
 
     public GameObject playerPrefab;
@@ -42,8 +39,11 @@ public class BattleSystem : MonoBehaviour
     List<string> battleScript = new List<string>();
     List<BattleHUD> battleHUDRefs = new List<BattleHUD>();
 
-    // Start is called before the first frame update
-    void Start()
+    public float xpOnWinBattle = 40.0f; // Default xp for winning a battle
+    public event Action<float> OnBattleOver;
+
+    // Called whenever a new battle starts
+    public void StartBattle()
     {
         battleState = EBattleState.START;
         StartCoroutine(SetupBattle()); 
@@ -66,6 +66,7 @@ public class BattleSystem : MonoBehaviour
         dialogueHelper = new DialogueHelper();
         dialogueHelper.LinkTextField(dialogueText);
 
+        // Dialogues For Initializing Battle
         dialogueHelper.SetupBattleDialogue(enemyBattleUnit.unitName);
         yield return new WaitForSeconds(1.5f);
         dialogueHelper.ReadyForActionsDialogue();
@@ -194,16 +195,16 @@ public class BattleSystem : MonoBehaviour
 
     // ================== VISUAL UPDATE FUNCTIONS ==================
 
-    void UpdateBattleHUD(BattleHUD _HUD)
+    IEnumerator UpdateBattleHUD(BattleHUD _HUD)
     {
-        _HUD.UpdateHUD();
+        yield return _HUD.UpdateHUD();
     }
 
     IEnumerator ResolveActions()
     {
         for (int i = 0; i < battleScript.Count; i++)
         {
-            dialogueText.text = battleScript[i];
+            dialogueHelper.TypeDialogue(battleScript[i]);
 
             if (battleHUDRefs[i] != null)
             {
@@ -244,25 +245,26 @@ public class BattleSystem : MonoBehaviour
 
     private void EndBattle()
     {
+        bool bHasPlayerWon = true;
+
         if (battleState == EBattleState.WON)
         {
-            dialogueHelper.Display("You won the battle!") ;
+            dialogueHelper.TypeDialogue("You won the battle!");
         }
         else if (battleState == EBattleState.LOST)
         {
-            dialogueHelper.Display("You were defeated...");
+            dialogueHelper.TypeDialogue("You were defeated...");
+            bHasPlayerWon = false;
+            xpOnWinBattle = 0.0f;
         }
 
-        StartCoroutine(ReturnToWorld("MainWorld"));
+        StartCoroutine(ReturnToWorld(bHasPlayerWon));
     }
 
-    IEnumerator ReturnToWorld(string _worldName)
+    IEnumerator ReturnToWorld(bool _hasPlayerWon)
     {
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadSceneAsync("MainWorld");
-
-        // Testing awarding XP after battle
-        xpBar.UpdateProgress(40.0f); // updates one 'notch' (each notch worth 40 total XP)
+        OnBattleOver.Invoke(xpOnWinBattle);
     }
 
     // ================== BUTTON FUNCTIONS ==================

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,16 +14,29 @@ public class DialogueHelper
         textMeshProField = _dialogueText;
     }
 
+    // ============== TYPING DIALOGUE ==============
+
+    public IEnumerator TypeDialogue(string _dialogueText)
+    {
+        textMeshProField.text = "";
+
+        foreach (var letter in _dialogueText.ToCharArray())
+        {
+            textMeshProField.text += letter;
+            yield return new WaitForSeconds(1f / 30);
+        }
+    }
+
     // ============== BATTLE DIALOGUE ==============
 
     public void SetupBattleDialogue(string _enemyUnitName)
     {
-        textMeshProField.text = "The " + _enemyUnitName + " approaches...";
+        TypeDialogue("The " + _enemyUnitName + " approaches...");
     }
 
     public void ReadyForActionsDialogue()
     {
-        textMeshProField.text = "You're in battle.\nWhat will you do?";
+        TypeDialogue("You're in battle.\nWhat will you do?");
     }
 
     public string UltiScript(string _unitName, int _damage)
@@ -73,9 +87,5 @@ public class DialogueHelper
         {
             return _unitName + " tries to charge, but is interrupted!";
         }
-    }
-    internal void Display(string _text)
-    {
-        textMeshProField.text = _text;
     }
 }

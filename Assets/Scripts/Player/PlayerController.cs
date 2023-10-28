@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
 
     private Animator animator;
+
+    // Start the BattleSystem
+    public event Action OnEncountered;
 
     private void Awake()
     {
@@ -32,6 +36,15 @@ public class PlayerController : MonoBehaviour
         else
         {
             animator.SetBool("IsMoving", false);
+        }
+    }
+
+    // Trigger OnEncountered
+    public void TriggerOnEncountered()
+    {
+        if (OnEncountered != null)
+        {
+            OnEncountered.Invoke(); 
         }
     }
 

@@ -11,17 +11,25 @@ public class InteractableObjects : CollidableObjects
     {
         if (Input.GetKey(KeyCode.E))
         {
-            OnInteract();
+            // Try cast the player as the collided Object
+            PlayerController player = collidedObject.GetComponent<PlayerController>();
+
+            if (player != null)
+            {
+                OnInteract(player);
+            }
+
         }
     }
 
-    protected virtual void OnInteract()
+    protected virtual void OnInteract(PlayerController _player)
     {
         if (!z_Interacted)
         {
             z_Interacted = true;
-            Debug.Log("INTERACT WITH " + name);
-            SceneManager.LoadScene("BattleScene");
+            Debug.Log("PLAYER INTERACTED WITH " + name);
+
+            _player.TriggerOnEncountered();
         }
     }
 }
