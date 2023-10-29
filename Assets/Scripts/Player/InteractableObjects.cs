@@ -13,7 +13,14 @@ public class InteractableObjects : CollidableObjects
     {
         if (Input.GetKey(KeyCode.E))
         {
-            OnInteract();
+            // Try cast the player as the collided Object
+            PlayerController player = collidedObject.GetComponent<PlayerController>();
+
+            if (player != null)
+            {
+                OnInteract(player);
+            }
+
         }
 
         if (Input.GetMouseButton(0))
@@ -22,15 +29,15 @@ public class InteractableObjects : CollidableObjects
         }
     }
 
-    protected virtual void OnInteract()
+    protected virtual void OnInteract(PlayerController _player)
     {
         if (!z_Interacted)
         {
             z_Interacted = true;
-            Debug.Log("INTERACT WITH " + name);
-            SceneManager.LoadScene("BattleScene"); //, LoadSceneMode.Additive);
+            Debug.Log("Player Interacted With " + name);
+
+            _player.TriggerOnEncountered();
         }
-        
     }
 
     protected virtual void OnAttack()

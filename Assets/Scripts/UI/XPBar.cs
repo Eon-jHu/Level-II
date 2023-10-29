@@ -42,7 +42,7 @@ public class XPBar : MonoBehaviour
 
     public void UpdateProgress(float amount, float duration = 0.1f)
     {
-        if (routine !=null)
+        if (routine != null)
         {
             StopCoroutine(routine);
         }

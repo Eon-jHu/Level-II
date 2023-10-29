@@ -15,29 +15,48 @@ public class BattleHUD : MonoBehaviour
     [SerializeField] Slider hpSlider;
     [SerializeField] Slider ultiSlider;
 
-    public void UpdateHUD()
+    public IEnumerator UpdateHUD()
     {
+        // ----- ----- ----- UPDATING HP ----- ----- -----
         nameText.text = unit.unitName;
         levelText.text = "Lvl " + unit.unitLevel;
         hpSlider.maxValue = unit.maxHP;
-        hpSlider.value = unit.currentHP;
-
         float hpPercentage = ((float)unit.currentHP / (float)unit.maxHP) * 100;
         hpText.text = hpPercentage + "%";
+        // Smoothly update the HP bar
+        yield return ChangeValueSmoothly(hpSlider, (float)unit.currentHP);
 
+
+        // ----- ----- ----- UPDATING ENERGY ----- ----- -----
         ultiSlider.maxValue = unit.maxEnergy;
-        ultiSlider.value = unit.currentEnergy;
         energyText.text = unit.currentEnergy + "/" + unit.maxEnergy;
+
+        // Smoothly update the energy bar
+        yield return ChangeValueSmoothly(ultiSlider, (float)unit.currentEnergy);
+
     }
 
-    public void LinkHUD(BattleUnit _unit)
+    public IEnumerator LinkHUD(BattleUnit _unit)
     {
         unit = _unit;
-        UpdateHUD();
+        yield return UpdateHUD();
     }
 
-    public void SetHP(int hp)
+    private IEnumerator ChangeValueSmoothly(Slider _slider, float _finalValue)
     {
-        hpSlider.value = hp;
+        // fChangeHP is negative if it's healing
+        float fChangeHP = _slider.value - _finalValue;
+
+        // While the changing HP values isn't equal to the input hp value
+        while (_slider.value - _finalValue > Mathf.Epsilon)
+        {
+            // Animate HP change a small amount per frame
+            _slider.value -= fChangeHP * Time.deltaTime;
+
+            yield return null;
+        }
+
+        // Finally, sets the hp to the input value after it's done animating
+        _slider.value = _finalValue;
     }
 }

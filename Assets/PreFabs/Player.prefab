@@ -129,12 +129,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32944b9c5ee85f442b6053abb55c93e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: A Rock
-  unitLevel: 9
+  unitName: Cecil
+  unitLevel: 1
   attackMod: 0
   blockMod: 0
-  maxHP: 25
-  currentHP: 20
+  maxHP: 30
+  currentHP: 25
   maxEnergy: 5
   currentEnergy: 0
   isAlive: 1
