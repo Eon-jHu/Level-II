@@ -112,6 +112,8 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  expBar: {fileID: 7746220109220010647, guid: 76729ac726fa0aa4db33e34a7a951969, type: 3}
+  IsNotDestroyable: 0
 --- !u!61 &2137086763423200790
 BoxCollider2D:
   m_ObjectHideFlags: 0
