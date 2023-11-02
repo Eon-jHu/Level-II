@@ -3,7 +3,12 @@ guid: dc4edc2ef45cf574a8e43b5db270ad79
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_PlayerController: {instanceID: 0}
+  - m_BattleSystem: {instanceID: 0}
+  - m_WorldCamera: {instanceID: 0}
+  - m_XPBar: {fileID: 7746220109220010647, guid: 76729ac726fa0aa4db33e34a7a951969, type: 3}
+  - m_AudioManager: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

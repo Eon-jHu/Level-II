@@ -4402,7 +4402,8 @@ MonoBehaviour:
   m_AudioSource: {fileID: 581070745}
   m_WorldMusic:
   - {fileID: 8300000, guid: 70cd301ab4be06449b0c771bc676fdc4, type: 3}
-  m_WorldFlippedMusic: []
+  m_WorldFlippedMusic:
+  - {fileID: 8300000, guid: 1104d3af58d82814e96328bf999ae5d6, type: 3}
   m_BattleMusic:
   - {fileID: 8300000, guid: 16d81ee4d536651448cb5e6d4194ffb3, type: 3}
 --- !u!1 &2041026721

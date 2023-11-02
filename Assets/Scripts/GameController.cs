@@ -6,12 +6,16 @@ using UnityEngine;
 public enum GameState
 {
     FreeRoam,
-    Battle
+    Battle,
+    WorldFlip
 }
 
 
 public class GameController : MonoBehaviour
 {
+    // variables.
+    XPBar ExpBar;
+
     GameState m_State;
     [SerializeField] PlayerController m_PlayerController;
     [SerializeField] BattleSystem m_BattleSystem;
@@ -25,6 +29,7 @@ public class GameController : MonoBehaviour
         // Observer/Subscriber Pattern
         m_PlayerController.OnEncountered += StartBattle;
         m_BattleSystem.OnBattleOver += EndBattle;
+        m_XPBar.OnXPNotch += StartWowrldFlip; 
     }
 
     void StartBattle()
@@ -51,12 +56,28 @@ public class GameController : MonoBehaviour
         m_XPBar.UpdateProgress(_xp);
         m_AudioManager.SetMusic(GameState.FreeRoam);
     }
+    void StartWowrldFlip()
+    {
+        Debug.Log("World Flip triggered");
+
+        //ExpBar.UpdateProgress(1.0f);
+
+        // ExpBar.SetWorldFlipIsTriggered(false);
+        m_State = GameState.WorldFlip;
+        m_BattleSystem.gameObject.SetActive(false);
+        m_WorldCamera.gameObject.SetActive(true);
+        m_XPBar.gameObject.SetActive(true);
+
+        //// Change Music
+        //m_BattleSystem.Begin();
+        m_AudioManager.SetMusic(GameState.WorldFlip);
+    }
 
 
     // Update is called once per frame
     void Update()
     {
-        if (m_State == GameState.FreeRoam)
+        if (m_State == GameState.FreeRoam || m_State == GameState.WorldFlip)
         {
             m_PlayerController.HandleUpdate();
         }
