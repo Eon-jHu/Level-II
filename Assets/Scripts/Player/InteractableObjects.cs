@@ -40,7 +40,9 @@ public class InteractableObjects : CollidableObjects
             z_Interacted = true;
             Debug.Log("Player Interacted With " + name);
 
-            _player.TriggerOnEncountered();
+            _player.TriggerOnEncountered(); // enter battle scene.
+
+            Destroy(gameObject); // destroy after interaction.
         }
     }
 
