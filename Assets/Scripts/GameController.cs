@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     [SerializeField] XPBar ExpBar;
     GrayScale MakeGray;
     CameraShake ShakeCam;
+    public bool IsInWorldFlip = false;
 
     GameState m_State;
     [SerializeField] PlayerController m_PlayerController;
@@ -30,6 +31,28 @@ public class GameController : MonoBehaviour
     private float tempXP;
     private float newXP;
 
+    // returning info.
+    public GameState GetState { get { return m_State; } }
+
+    public bool GetIsInWorldFlip()  
+    { 
+        return IsInWorldFlip; 
+    }
+
+    public static GameController instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = FindObjectOfType<GameController>();
+        }
+        else if (instance != FindObjectOfType<GameController>())
+        {
+            Destroy(FindObjectOfType<GameController>());
+        }
+    }
+
     // Subscribe to the created event
     private void Start()
     {
@@ -42,6 +65,7 @@ public class GameController : MonoBehaviour
 
     void StartBattle()
     {
+        IsInWorldFlip = false;
         //Debug.Log("StartBattle triggered...");
 
         m_State = GameState.Battle;
@@ -60,6 +84,7 @@ public class GameController : MonoBehaviour
     }
     private void EndBattle(float _xp)
     {
+        IsInWorldFlip = false;
         // --- NOTE values not inputting correctly
         //Debug.Log("XP awarded in battle = " + _xp);
 
@@ -95,6 +120,7 @@ public class GameController : MonoBehaviour
     }
     public void EndWorldFlip()
     {
+        IsInWorldFlip = false;
         m_State = GameState.FreeRoam;
         m_BattleSystem.gameObject.SetActive(false);
         m_WorldCamera.gameObject.SetActive(true);
@@ -110,7 +136,9 @@ public class GameController : MonoBehaviour
     }
     void StartWorldFlip()
     {
-        //Debug.Log("World Flip triggered");
+        IsInWorldFlip = true;
+        Debug.Log("World Flip triggered");
+        Debug.Log("World flip bool = " + IsInWorldFlip);
 
         //ExpBar.UpdateProgress(1.0f);
 

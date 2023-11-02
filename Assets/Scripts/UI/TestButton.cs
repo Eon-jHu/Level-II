@@ -7,7 +7,7 @@ public class TestButton : MonoBehaviour
     [SerializeField]
     XPBar expBar;
 
-    float XPValue = 20.0f;
+    float XPValue = 40.0f;
 
     // float MaxXP = 240.0f;
 
