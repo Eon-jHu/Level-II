@@ -33,6 +33,8 @@ public class XPBar : MonoBehaviour
 
     private Coroutine routine;
 
+    private float target;
+
     // setters and getters.
     public void SetWorldFlipIsTriggered(bool _TrueOrFalse)
     {
@@ -60,13 +62,14 @@ public class XPBar : MonoBehaviour
         {
             StopCoroutine(routine);
         }
-        float target = currentAmount + (amount/MaxXP);
+        
+        target = currentAmount + (amount/MaxXP);
         routine = StartCoroutine(FillRoutine(target, duration));
-        Debug.Log("Target = " + target);
+        Debug.Log("Current XP (XPBar) = " + target);
 
         //while (!WorldFlipIsTriggered)
         //{
-            if (target > (39.0f / MaxXP) && target < (41.0f / MaxXP))
+            if (target > (39.5f / MaxXP) && target < (40.5f / MaxXP))
             {
                 Debug.Log("Notch has been reached");
 
@@ -93,7 +96,7 @@ public class XPBar : MonoBehaviour
 
         if (currentAmount >= 1)
         {
-            LevelUp();
+            //LevelUp();
         }
     }
 
@@ -115,5 +118,10 @@ public class XPBar : MonoBehaviour
     private void UpdateLevel(int level)
     {
         this.level = level;
+    }
+    
+    public float GetTarget()
+    {
+        return target;
     }
 }

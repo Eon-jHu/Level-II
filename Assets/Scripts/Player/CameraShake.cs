@@ -55,11 +55,11 @@ public class CameraShake : MonoBehaviour
     // trigger OnShapeOver.
     public void TriggerOnShakeOver()
     {
-        Debug.Log("Entered TriggerOnShakeOver");
+       // Debug.Log("Entered TriggerOnShakeOver");
 
         if (OnShakeOver != null)
         {
-            Debug.Log("Entered TriggerOnShakeOver to invoke");
+            //Debug.Log("Entered TriggerOnShakeOver to invoke");
             OnShakeOver.Invoke();
         }
     }

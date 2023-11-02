@@ -9,6 +9,11 @@ public class CollidableObjects : MonoBehaviour
     private ContactFilter2D z_Filter;
     private List<Collider2D> z_CollidedObjects = new List<Collider2D>(1); // Only stores one object for collision.
 
+    GameController gameController;
+
+    [SerializeField]
+    protected XPBar expBar;
+
     protected virtual void Start()
     {
         z_Collider = GetComponent<Collider2D>();
@@ -25,7 +30,7 @@ public class CollidableObjects : MonoBehaviour
 
     protected virtual void OnCollided(GameObject collidedObject)
     {
-        Debug.Log("Collided with " + collidedObject.name);
+        //Debug.Log("Collided with " + collidedObject.name);
     }
 
 
