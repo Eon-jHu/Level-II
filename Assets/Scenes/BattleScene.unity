@@ -622,7 +622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16703a1d03e17bf4aa010e7ad2b2b658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xpBar: {fileID: 7746220109220010647, guid: 76729ac726fa0aa4db33e34a7a951969, type: 3}
+  expBar: {fileID: 0}
   battleState: 0
   playerPrefab: {fileID: 5642619767235962097, guid: 7578c985e6e685448a018a20efa590bf, type: 3}
   enemyPrefab: {fileID: 3940620849224325088, guid: 2476491214ccc2645afa474228b21a47, type: 3}
@@ -631,6 +631,8 @@ MonoBehaviour:
   playerHUD: {fileID: 712508621}
   enemyHUD: {fileID: 524027801}
   dialogueText: {fileID: 1862644407}
+  dialogueHelper: {fileID: 0}
+  xpOnWinBattle: 20
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2883,8 +2885,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505002200}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.75, y: 0.25, z: 0}
-  m_LocalScale: {x: 7.413502, y: 7.413502, z: 7.413502}
+  m_LocalPosition: {x: 3.62, y: -0.91, z: 0}
+  m_LocalScale: {x: 14.86753, y: 14.86753, z: 14.86753}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3038,7 +3040,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -11
-  m_Sprite: {fileID: 21300000, guid: 8e34829408ef62e4683b197922f25231, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 137ed1bc19320de4facd9143ebde970e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3507,7 +3509,7 @@ Transform:
   m_GameObject: {fileID: 1870578479}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.92, y: -3.2805, z: 0}
-  m_LocalScale: {x: 10.292531, y: 10.292531, z: 10.292531}
+  m_LocalScale: {x: 30.488535, y: 30.488535, z: 30.488535}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
