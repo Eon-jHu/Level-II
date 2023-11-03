@@ -15,8 +15,8 @@ public class PlayerController : MonoBehaviour
 
     private Animator animator;
 
-    // OnEncountered event -- Deprecated for now
-    // public event Action OnEncountered;
+    // Start the BattleSystem
+    public event Action OnEncountered;
 
     private void Awake()
     {
@@ -57,14 +57,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Trigger OnEncountered -- Deprecated for now
-    //public void TriggerOnEncountered()
-    //{
-    //    if (OnEncountered != null)
-    //    {
-    //        OnEncountered.Invoke(); 
-    //    }
-    //}
+    // Trigger OnEncountered
+    public void TriggerOnEncountered()
+    {
+        if (OnEncountered != null)
+        {
+            OnEncountered.Invoke(); 
+        }
+    }
 
     public void HandleUpdate() // For physics based & rigid body
     {

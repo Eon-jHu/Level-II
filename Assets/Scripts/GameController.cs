@@ -23,10 +23,7 @@ public class GameController : MonoBehaviour
     [SerializeField] PlayerController m_PlayerController;
     [SerializeField] BattleSystem m_BattleSystem;
     [SerializeField] Camera m_WorldCamera;
-    [SerializeField] public XPBar m_XPBar
-    {
-        get;
-    }
+    [SerializeField] XPBar m_XPBar;
     [SerializeField] CameraShake m_CameraShake;
     [SerializeField] AudioManager m_AudioManager;
     [SerializeField] InteractableObjects m_Enemies;
@@ -54,51 +51,38 @@ public class GameController : MonoBehaviour
         {
             Destroy(FindObjectOfType<GameController>());
         }
-
-        m_BattleSystem.OnBattleOver += EndBattle;
-        //m_XPBar.OnXPNotch += StartWorldFlip;
-        m_CameraShake.OnShakeOver += EndWorldFlip;
     }
 
     // Subscribe to the created event
     private void Start()
     {
         // Observer/Subscriber Pattern
-        // m_PlayerController.OnEncountered += StartBattle;
-        // This should be done from the interactable object
-
-        //m_BattleSystem.OnBattleOver += EndBattle;
-        //m_XPBar.OnXPNotch += StartWorldFlip;
-        //m_CameraShake.OnShakeOver += EndWorldFlip;
+        m_PlayerController.OnEncountered += StartBattle;
+        m_BattleSystem.OnBattleOver += EndBattle;
+        m_XPBar.OnXPNotch += StartWorldFlip;
+        m_CameraShake.OnShakeOver += EndWorldFlip;
     }
 
-    public void StartBattle(GameObject _player, GameObject _enemy)
+    void StartBattle()
     {
         IsInWorldFlip = false;
         //Debug.Log("StartBattle triggered...");
 
-        // If the components are both engageable...
-        if (_player.GetComponent<Engageable>() != null && _enemy.GetComponent<Engageable>() != null)
-        {
-            m_State = GameState.Battle;
-            m_BattleSystem.gameObject.SetActive(true);
-            m_WorldCamera.gameObject.SetActive(false);
+        m_State = GameState.Battle;
+        m_BattleSystem.gameObject.SetActive(true);
+        m_WorldCamera.gameObject.SetActive(false);
 
-            // Store the xp as a tempory value
-            tempXP = m_XPBar.GetTarget();
-            Debug.Log("Target Value Temp Battle Begin: " + tempXP);
-            m_XPBar.gameObject.SetActive(false);
+        // Store the xp as a tempory value
+        tempXP = m_XPBar.GetTarget();
+        Debug.Log("Target Value Temp Battle Begin: " + tempXP);
 
-            // Change Music
-            m_AudioManager.SetMusic(GameState.Battle);
+        m_XPBar.gameObject.SetActive(false);
 
-            // START THE BATTLE!
-            m_BattleSystem.Begin(_player.GetComponent<Engageable>().m_BattleOrDialoguePrefab,
-                _enemy.GetComponent<Engageable>().m_BattleOrDialoguePrefab);
-
-        }
+        // Change Music
+        m_BattleSystem.Begin();
+        m_AudioManager.SetMusic(GameState.Battle);
     }
-    public void EndBattle(float _xp)
+    private void EndBattle(float _xp)
     {
         IsInWorldFlip = false;
         // --- NOTE values not inputting correctly
@@ -165,7 +149,7 @@ public class GameController : MonoBehaviour
         m_State = GameState.WorldFlip;
         m_BattleSystem.gameObject.SetActive(false);
         m_WorldCamera.gameObject.SetActive(true);
-        //m_XPBar.gameObject.SetActive(false);
+        m_XPBar.gameObject.SetActive(false);
         //m_Enemies.gameObject.SetActive(false);
 
         //// Change Music

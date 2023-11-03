@@ -17,21 +17,18 @@ public enum EActionType
 // A PreFab of an enemy or player will have its own BattleUnit component which determines its capabilities in combat
 public class BattleUnit : MonoBehaviour
 {
-    [NonSerialized]
     public string unitName;
+    public int unitLevel;
 
     // Battle Stats
-    public int unitLevel = 1;
-    public int attackMod = 0;     // Determines attack accuracy
-    public int blockMod = 0;      // Determines block effectiveness
-    public int maxHP = 10;
-    public int currentHP = 10;
-    public int maxEnergy = 5;  // Determines ulti charge time
-    public int currentEnergy = 0;
+    public int attackMod;     // Determines attack accuracy
+    public int blockMod;      // Determines block effectiveness
+    public int maxHP;
+    public int currentHP;
+    public int maxEnergy;  // Determines ulti charge time
+    public int currentEnergy;
 
-    [NonSerialized]
     public bool isAlive = true;
-    [NonSerialized]
     public bool isHit = false;
 
     // Battle Behaviours
@@ -44,11 +41,6 @@ public class BattleUnit : MonoBehaviour
 
     public EActionType prevAction = EActionType.NONE;
     public EActionType currentAction = EActionType.NONE;
-
-    private void Awake()
-    {
-        unitName = gameObject.name;
-    }
 
     public void ExecuteBattleStrategy(EActionType _opponentPrevAction)
     {

@@ -2379,6 +2379,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  expBar: {fileID: 1648721714}
   IsNotDestroyable: 0
 --- !u!212 &125652512
 SpriteRenderer:
@@ -4622,19 +4623,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94945da44906bea49bf1ccf10b4ab312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1158480640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158480633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed6811998630727468fa82b7c6266c9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BattleOrDialoguePrefab: {fileID: 0}
 --- !u!1 &1255841655
 GameObject:
   m_ObjectHideFlags: 3
@@ -4872,6 +4860,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  expBar: {fileID: 1648721714}
   IsNotDestroyable: 0
 --- !u!212 &1482556915
 SpriteRenderer:
@@ -5043,6 +5032,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  expBar: {fileID: 1648721714}
   IsNotDestroyable: 0
 --- !u!212 &1544918933
 SpriteRenderer:
@@ -5104,7 +5094,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1544918930}
   m_LocalRotation: {x: 0.0032755262, y: -0, z: -0, w: 0.99999464}
-  m_LocalPosition: {x: 5.13, y: 2.03, z: 0}
+  m_LocalPosition: {x: 3.55, y: 0.56, z: 0}
   m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5182,6 +5172,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  expBar: {fileID: 1648721714}
   IsNotDestroyable: 0
 --- !u!212 &1637658438
 SpriteRenderer:
@@ -5326,7 +5317,7 @@ PrefabInstance:
     - target: {fileID: 6126337623712248835, guid: 1338c7c53a6655248bcd82123484308d, type: 3}
       propertyPath: expBar
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1648721714}
     - target: {fileID: 6126337623712248837, guid: 1338c7c53a6655248bcd82123484308d, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -5375,10 +5366,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoarEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 7033697046451706142, guid: 1338c7c53a6655248bcd82123484308d, type: 3}
-      propertyPath: m_BattleOrDialoguePrefab
-      value: 
-      objectReference: {fileID: 3940620849224325088, guid: 2476491214ccc2645afa474228b21a47, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1338c7c53a6655248bcd82123484308d, type: 3}
 --- !u!1 &2040024089
@@ -94282,11 +94269,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc4edc2ef45cf574a8e43b5db270ad79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExpBar: {fileID: 1648721714}
+  ExpBar: {fileID: 0}
   IsInWorldFlip: 0
   m_PlayerController: {fileID: 768024874}
   m_BattleSystem: {fileID: 1904507677}
   m_WorldCamera: {fileID: 963245007}
+  m_XPBar: {fileID: 1648721714}
   m_CameraShake: {fileID: 320798496}
   m_AudioManager: {fileID: 2040024091}
   m_Enemies: {fileID: 0}
@@ -94376,6 +94364,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  expBar: {fileID: 1648721714}
   IsNotDestroyable: 0
 --- !u!212 &2106265758
 SpriteRenderer:
