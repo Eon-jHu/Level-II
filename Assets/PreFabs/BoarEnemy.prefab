@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6126337623712248837}
   - component: {fileID: 6126337623712248836}
+  - component: {fileID: 6126337623712248832}
   - component: {fileID: 6126337623712248834}
   - component: {fileID: 6126337623712248835}
-  - component: {fileID: 6126337623712248832}
+  - component: {fileID: 7033697046451706142}
   m_Layer: 0
   m_Name: BoarEnemy
   m_TagString: Untagged
@@ -87,6 +88,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6126337623712248832
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6126337623712248839}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ac6d1d37de96c5e4c8dbe7a75ae6690e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!61 &6126337623712248834
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -139,25 +160,17 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
-  expBar: {fileID: 0}
   IsNotDestroyable: 1
---- !u!95 &6126337623712248832
-Animator:
-  serializedVersion: 4
+--- !u!114 &7033697046451706142
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6126337623712248839}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ac6d1d37de96c5e4c8dbe7a75ae6690e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed6811998630727468fa82b7c6266c9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BattleOrDialoguePrefab: {fileID: 3940620849224325088, guid: 2476491214ccc2645afa474228b21a47, type: 3}

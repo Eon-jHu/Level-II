@@ -9,7 +9,6 @@ public class InteractableObjects : CollidableObjects
 {
     private bool z_Interacted = false;
 
-
     //[SerializeField]
     //XPBar expBar;
 
@@ -22,9 +21,10 @@ public class InteractableObjects : CollidableObjects
             // Try cast the player as the collided Object
             PlayerController player = collidedObject.GetComponent<PlayerController>();
 
+            // If it IS the player  -> interacting with -> the object
             if (player != null)
             {
-                OnInteract(player);
+                EngageBattle(collidedObject, gameObject);
             }
 
         }
@@ -35,27 +35,29 @@ public class InteractableObjects : CollidableObjects
         }
     }
 
-    protected virtual void OnInteract(PlayerController _player)
+    protected void EngageBattle(GameObject _player, GameObject _enemy)
     {
         if (!z_Interacted)
         {
             z_Interacted = true;
 
-            _player.TriggerOnEncountered(); // enter battle scene.
+            GameController.instance.StartBattle(_player, _enemy);
 
             Destroy(gameObject); // destroy after interaction.
         }
     }
 
-    protected virtual void OnAttack()
+    protected void OnAttack()
     {
-        if (!z_Interacted && !IsNotDestroyable) // only destroy is object is destroyable.
+        if (!z_Interacted && !IsNotDestroyable) // only destroy object if destroyable.
         {
             z_Interacted = true;
 
-            expBar.UpdateProgress(5.0f); // on destroy, add 5 XP to bar.
+            GameController.instance.m_XPBar.UpdateProgress(5.0f);
 
             Destroy(gameObject);
         }
+
+        // Else, start combat with them
     }
 }

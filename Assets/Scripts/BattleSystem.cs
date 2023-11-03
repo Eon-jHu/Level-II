@@ -23,9 +23,6 @@ public class BattleSystem : MonoBehaviour
 
     public EBattleState battleState;
 
-    public GameObject playerPrefab;
-    public GameObject enemyPrefab;
-
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
 
@@ -45,20 +42,20 @@ public class BattleSystem : MonoBehaviour
     public event Action<float> OnBattleOver;
 
     // Called whenever a new battle starts
-    public void Begin()
+    public void Begin(GameObject _playerPrefab, GameObject _enemyPrefab)
     {
         battleState = EBattleState.START;
-        StartCoroutine(SetupBattle()); 
+        StartCoroutine(SetupBattle(_playerPrefab, _enemyPrefab)); 
     }
 
     // ================== BATTLE STATE FUNCTIONS ==================
 
-    IEnumerator SetupBattle()
+    IEnumerator SetupBattle(GameObject _playerPrefab, GameObject _enemyPrefab)
     {
         //Debug.Log("Setting up battle...");
 
-        GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
-        GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
+        GameObject playerGO = Instantiate(_playerPrefab, playerBattleStation);
+        GameObject enemyGO = Instantiate(_enemyPrefab, enemyBattleStation);
 
         playerBattleUnit = playerGO.GetComponent<BattleUnit>();
         enemyBattleUnit = enemyGO.GetComponent<BattleUnit>();

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3093162578798250641}
   - component: {fileID: 3093162578798250647}
   - component: {fileID: 3093162578798250642}
+  - component: {fileID: 2197691154616113289}
   - component: {fileID: 8765184237577034665}
   m_Layer: 7
   m_Name: Player_Overworld
@@ -179,6 +180,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+--- !u!114 &2197691154616113289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3093162578798250653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed6811998630727468fa82b7c6266c9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BattleOrDialoguePrefab: {fileID: 5642619767235962097, guid: 7578c985e6e685448a018a20efa590bf, type: 3}
 --- !u!95 &8765184237577034665
 Animator:
   serializedVersion: 4
