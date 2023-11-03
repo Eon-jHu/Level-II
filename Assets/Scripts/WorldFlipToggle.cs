@@ -1,20 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WorldFlipToggle : MonoBehaviour
 {
     private Renderer _renderer;
+    private Image _image;
+
    // private GameController _controller;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        _renderer = GetComponent<Renderer>();
+        _renderer = gameObject.GetComponent<Renderer>();
 
         if (_renderer == null)
         {
-            Debug.LogError("Renderer component not found on this object.");
+            Debug.LogError("Renderer component not found on " + gameObject.name);
+        }
+
+        _image = gameObject.GetComponent<Image>();
+
+        if (_renderer == null)
+        {
+            Debug.LogError("Image component not found on " + gameObject.name);
         }
 
         //_controller = GetComponent<GameController>();
@@ -32,7 +42,18 @@ public class WorldFlipToggle : MonoBehaviour
         if (GameController.instance != null && (GameController.instance.IsInWorldFlip == true || Input.GetKeyDown(KeyCode.Z)))
         {
             // show
-            _renderer.enabled = true;
+            if (_renderer != null)
+            {
+                _renderer.enabled = true;
+                Debug.Log(gameObject.name + "'s Renderer has been enabled!");
+            }
+
+            if (_image != null)
+            {
+                _image.enabled = true;
+                Debug.Log(gameObject.name + "'s Image has been enabled!");
+            }
+      
         }
 
         if (GameController.instance != null && (GameController.instance.IsInWorldFlip == false || Input.GetKeyDown(KeyCode.X)))  
@@ -40,7 +61,18 @@ public class WorldFlipToggle : MonoBehaviour
             // hide if not in world flip.
             Debug.Log("Entered world flip hiding");
             // hide
-            _renderer.enabled = false;
+            if (_renderer != null)
+            {
+                _renderer.enabled = false;
+                Debug.Log(gameObject.name + "'s Renderer has not been enabled!");
+            }
+
+            if (_image != null)
+            {
+                _image.enabled = false;
+                Debug.Log(gameObject.name + "'s Image has been not enabled!");
+            }
         }
     }
+
 }
