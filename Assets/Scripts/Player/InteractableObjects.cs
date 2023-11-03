@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -8,8 +9,13 @@ public class InteractableObjects : CollidableObjects
 {
     private bool z_Interacted = false;
 
+
+    //[SerializeField]
+    //XPBar expBar;
+
     [SerializeField] private bool IsNotDestroyable = false;
-     protected override void OnCollided(GameObject collidedObject)
+
+    protected override void OnCollided(GameObject collidedObject)
     {
         if (Input.GetKey(KeyCode.E))
         {
@@ -34,18 +40,21 @@ public class InteractableObjects : CollidableObjects
         if (!z_Interacted)
         {
             z_Interacted = true;
-            Debug.Log("Player Interacted With " + name);
 
-            _player.TriggerOnEncountered();
+            _player.TriggerOnEncountered(); // enter battle scene.
+
+            Destroy(gameObject); // destroy after interaction.
         }
     }
 
     protected virtual void OnAttack()
     {
-        if (!z_Interacted && !IsNotDestroyable)
+        if (!z_Interacted && !IsNotDestroyable) // only destroy is object is destroyable.
         {
             z_Interacted = true;
-            Debug.Log("ATTACK");
+
+            expBar.UpdateProgress(5.0f); // on destroy, add 5 XP to bar.
+
             Destroy(gameObject);
         }
     }

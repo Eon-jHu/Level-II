@@ -19,6 +19,8 @@ public enum EBattleState
 
 public class BattleSystem : MonoBehaviour
 {
+    [SerializeField] XPBar expBar;
+
     public EBattleState battleState;
 
     public GameObject playerPrefab;
@@ -39,7 +41,7 @@ public class BattleSystem : MonoBehaviour
     List<string> battleScript = new List<string>();
     List<BattleHUD> battleHUDRefs = new List<BattleHUD>();
 
-    public float xpOnWinBattle = 40.0f; // Default xp for winning a battle
+    public float xpOnWinBattle = 20.0f; // Default xp for winning a battle
     public event Action<float> OnBattleOver;
 
     // Called whenever a new battle starts
@@ -53,7 +55,7 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SetupBattle()
     {
-        Debug.Log("Setting up battle...");
+        //Debug.Log("Setting up battle...");
 
         GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
         GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
@@ -128,9 +130,9 @@ public class BattleSystem : MonoBehaviour
     {
         if (_thisUnit.currentAction == EActionType.ULTING)
         {
-            Debug.Log(_thisUnit.unitName + " ultis");
+            //Debug.Log(_thisUnit.unitName + " ultis");
             int iDamageCheck = _thisUnit.Ulti(_opposingUnit);
-            Debug.Log(_thisUnit.unitName + "'s damage = " + iDamageCheck);
+            //Debug.Log(_thisUnit.unitName + "'s damage = " + iDamageCheck);
 
             // Add to resolution chain
             battleScript.Add(dialogueHelper.UltiScript(_thisUnit.unitName, iDamageCheck));
@@ -142,7 +144,7 @@ public class BattleSystem : MonoBehaviour
     {
         if (_unit.currentAction == EActionType.BLOCKING)
         {
-            Debug.Log(_unit.unitName + " blocks");
+           // Debug.Log(_unit.unitName + " blocks");
             _unit.Block();
 
             // Add to resolution chain
@@ -155,9 +157,9 @@ public class BattleSystem : MonoBehaviour
     {
         if (_thisUnit.currentAction == EActionType.ATTACKING)
         {
-            Debug.Log(_thisUnit.unitName + " attacks");
+            //Debug.Log(_thisUnit.unitName + " attacks");
             int iDamageCheck = _thisUnit.Attack(_opposingUnit);
-            Debug.Log(_thisUnit.unitName + "'s damage = " + iDamageCheck);
+            //Debug.Log(_thisUnit.unitName + "'s damage = " + iDamageCheck);
 
             // Add to resolution chain
             battleScript.Add(dialogueHelper.AttackScript(_thisUnit.unitName, iDamageCheck));
@@ -185,7 +187,7 @@ public class BattleSystem : MonoBehaviour
     {
         if (_unit.currentAction == EActionType.CHARGING)
         {
-            Debug.Log(_unit + " charges");
+            //Debug.Log(_unit + " charges");
             bool isChargeSuccessful = _unit.Charge();
 
             // Add to resolution chain
@@ -228,8 +230,8 @@ public class BattleSystem : MonoBehaviour
         battleHUDRefs.Clear();
         battleScript.Clear();
 
-        Debug.Log(playerBattleUnit.unitName + " is dead: " + !playerBattleUnit.isAlive);
-        Debug.Log(enemyBattleUnit.unitName + " is dead: " + !enemyBattleUnit.isAlive);
+       // Debug.Log(playerBattleUnit.unitName + " is dead: " + !playerBattleUnit.isAlive);
+       // Debug.Log(enemyBattleUnit.unitName + " is dead: " + !enemyBattleUnit.isAlive);
 
         // Check for statuses
         if (CheckAlive())
@@ -253,6 +255,10 @@ public class BattleSystem : MonoBehaviour
         if (battleState == EBattleState.WON)
         {
             StartCoroutine(dialogueHelper.TypeDialogue("You won the battle!"));
+
+            //// testing updating XP bar from battle as opposed to previous function calls.     // ineffective in current game state?
+            //expBar.UpdateProgress(20.0f); // on win, add 20 XP to bar.
+            //Debug.Log("Updated XP Progress in Battle System");
         }
         else if (battleState == EBattleState.LOST)
         {
@@ -267,7 +273,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator ReturnToWorld(bool _hasPlayerWon)
     {
         yield return new WaitForSeconds(2f);
-        OnBattleOver.Invoke(xpOnWinBattle);
+        OnBattleOver.Invoke(xpOnWinBattle); // this is not carrying over the updated XP I don't think.
     }
 
     // ================== BUTTON FUNCTIONS ==================
@@ -281,7 +287,7 @@ public class BattleSystem : MonoBehaviour
         // Change BattleState
         battleState = EBattleState.RESOLVING;
 
-        Debug.Log(name + " activated!");
+        //Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.ATTACKING;
@@ -298,7 +304,7 @@ public class BattleSystem : MonoBehaviour
         // Change BattleState
         battleState = EBattleState.RESOLVING;
 
-        Debug.Log(name + " activated!");
+        //Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.BLOCKING;
@@ -315,7 +321,7 @@ public class BattleSystem : MonoBehaviour
         // Change BattleState
         battleState = EBattleState.RESOLVING;
 
-        Debug.Log(name + " activated!");
+        //Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.CHARGING;
@@ -332,7 +338,7 @@ public class BattleSystem : MonoBehaviour
         // Change BattleState
         battleState = EBattleState.RESOLVING;
 
-        Debug.Log(name + " activated!");
+        //Debug.Log(name + " activated!");
 
         playerBattleUnit.prevAction = playerBattleUnit.currentAction;
         playerBattleUnit.currentAction = EActionType.ULTING;
