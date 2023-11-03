@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class XPBar : MonoBehaviour
 {
@@ -14,6 +17,11 @@ public class XPBar : MonoBehaviour
     [SerializeField]
     private Image barOutline;
 
+    private bool WorldFlipIsTriggered = false;
+
+    // initiate world flip.
+    public event Action OnXPNotch;
+
     //[SerializeField]
     //private Color color;
 
@@ -24,6 +32,14 @@ public class XPBar : MonoBehaviour
     private float MaxXP = 240.0f;
 
     private Coroutine routine;
+
+    private float target;
+
+    // setters and getters.
+    public void SetWorldFlipIsTriggered(bool _TrueOrFalse)
+    {
+        WorldFlipIsTriggered = _TrueOrFalse;
+    }
 
     void OnEnable()
     {
@@ -46,8 +62,21 @@ public class XPBar : MonoBehaviour
         {
             StopCoroutine(routine);
         }
-        float target = currentAmount + (amount/MaxXP);
+        
+        target = currentAmount + (amount/MaxXP);
         routine = StartCoroutine(FillRoutine(target, duration));
+        Debug.Log("Current XP (XPBar) = " + target);
+
+        //while (!WorldFlipIsTriggered)
+        //{
+            if (target > (39.5f / MaxXP) && target < (40.5f / MaxXP))
+            {
+                Debug.Log("Notch has been reached");
+
+                TriggerOnXPNotch(); // enter world flip.
+            }
+        //}
+        
     }
 
     private IEnumerator FillRoutine(float target, float duration)
@@ -67,7 +96,16 @@ public class XPBar : MonoBehaviour
 
         if (currentAmount >= 1)
         {
-            LevelUp();
+            //LevelUp();
+        }
+    }
+
+    // trigger OnXPNotch
+    public void TriggerOnXPNotch()
+    {
+        if (OnXPNotch != null)
+        {
+            OnXPNotch.Invoke();
         }
     }
 
@@ -80,5 +118,10 @@ public class XPBar : MonoBehaviour
     private void UpdateLevel(int level)
     {
         this.level = level;
+    }
+    
+    public float GetTarget()
+    {
+        return target;
     }
 }

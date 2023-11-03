@@ -17,14 +17,24 @@ public class AudioManager : MonoBehaviour
             { 
                 m_AudioSource.clip = m_WorldMusic[0];
                 m_AudioSource.Play();
-                break;
+                    m_AudioSource.volume = 1f;
+                    break;
             }
 
             case GameState.Battle:
             {
                 m_AudioSource.clip = m_BattleMusic[0];
                 m_AudioSource.Play();
+                m_AudioSource.volume = 0.09f;
                 break;
+            }
+
+            case GameState.WorldFlip:
+            {
+                m_AudioSource.clip = m_WorldFlippedMusic[0];
+                m_AudioSource.Play();
+                    m_AudioSource.volume = 1f;
+                    break;
             }
         }
     }
