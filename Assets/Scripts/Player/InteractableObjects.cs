@@ -14,6 +14,7 @@ public class InteractableObjects : CollidableObjects
     //XPBar expBar;
 
     [SerializeField] private bool IsNotDestroyable = false;
+    [SerializeField] private bool IsNotInteractable = false;
 
     protected override void OnCollided(GameObject collidedObject)
     {
@@ -37,7 +38,7 @@ public class InteractableObjects : CollidableObjects
 
     protected virtual void OnInteract(PlayerController _player)
     {
-        if (!z_Interacted)
+        if (!z_Interacted && !IsNotInteractable)
         {
             z_Interacted = true;
 
@@ -53,7 +54,9 @@ public class InteractableObjects : CollidableObjects
         {
             z_Interacted = true;
 
-            expBar.UpdateProgress(5.0f); // on destroy, add 5 XP to bar.
+            expBar.GetComponent<XPBar>().UpdateProgress(5.0f); // on destroy, add 5 XP to bar.
+
+            // play audio
 
             Destroy(gameObject);
         }

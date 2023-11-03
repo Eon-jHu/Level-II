@@ -12,11 +12,12 @@ public class CollidableObjects : MonoBehaviour
     GameController gameController;
 
     [SerializeField]
-    protected XPBar expBar;
+    protected GameObject expBar;
 
     protected virtual void Start()
     {
         z_Collider = GetComponent<Collider2D>();
+        expBar = GameObject.Find("XPBar");
     }
 
     protected virtual void Update()
