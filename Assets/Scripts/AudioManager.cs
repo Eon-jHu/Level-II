@@ -26,6 +26,13 @@ public class AudioManager : MonoBehaviour
                 m_AudioSource.Play();
                 break;
             }
+
+            case GameState.WorldFlip:
+            {
+                m_AudioSource.clip = m_WorldFlippedMusic[0];
+                m_AudioSource.Play();
+                break;
+            }
         }
     }
 }

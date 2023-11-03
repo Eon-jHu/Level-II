@@ -3,7 +3,15 @@ guid: dc4edc2ef45cf574a8e43b5db270ad79
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - expBar: {fileID: 7746220109220010647, guid: 76729ac726fa0aa4db33e34a7a951969, type: 3}
+  - m_PlayerController: {instanceID: 0}
+  - m_BattleSystem: {instanceID: 0}
+  - m_WorldCamera: {instanceID: 0}
+  - m_XPBar: {fileID: 7746220109220010647, guid: 76729ac726fa0aa4db33e34a7a951969, type: 3}
+  - m_CameraShake: {instanceID: 0}
+  - m_AudioManager: {instanceID: 0}
+  - m_Enemies: {fileID: 6126337623712248835, guid: 1338c7c53a6655248bcd82123484308d, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -7,7 +8,14 @@ using UnityEngine.SceneManagement;
 public class InteractableObjects : CollidableObjects
 {
     private bool z_Interacted = false;
-     protected override void OnCollided(GameObject collidedObject)
+
+
+    //[SerializeField]
+    //XPBar expBar;
+
+    [SerializeField] private bool IsNotDestroyable = false;
+
+    protected override void OnCollided(GameObject collidedObject)
     {
         if (Input.GetKey(KeyCode.E))
         {
@@ -20,6 +28,11 @@ public class InteractableObjects : CollidableObjects
             }
 
         }
+
+        if (Input.GetMouseButton(0))
+        {
+            OnAttack();
+        }
     }
 
     protected virtual void OnInteract(PlayerController _player)
@@ -27,9 +40,22 @@ public class InteractableObjects : CollidableObjects
         if (!z_Interacted)
         {
             z_Interacted = true;
-            Debug.Log("Player Interacted With " + name);
 
-            _player.TriggerOnEncountered();
+            _player.TriggerOnEncountered(); // enter battle scene.
+
+            Destroy(gameObject); // destroy after interaction.
+        }
+    }
+
+    protected virtual void OnAttack()
+    {
+        if (!z_Interacted && !IsNotDestroyable) // only destroy is object is destroyable.
+        {
+            z_Interacted = true;
+
+            expBar.UpdateProgress(5.0f); // on destroy, add 5 XP to bar.
+
+            Destroy(gameObject);
         }
     }
 }
