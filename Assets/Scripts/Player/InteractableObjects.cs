@@ -53,7 +53,7 @@ public class InteractableObjects : CollidableObjects
         {
             z_Interacted = true;
 
-            expBar.UpdateProgress(5.0f); // on destroy, add 5 XP to bar.
+            expBar.GetComponent<XPBar>().UpdateProgress(5.0f); // on destroy, add 5 XP to bar.
 
             Destroy(gameObject);
         }
