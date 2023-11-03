@@ -5,19 +5,12 @@ using UnityEngine;
 public class CollidableObjects : MonoBehaviour
 {
     private Collider2D z_Collider;
-    [SerializeField]
-    private ContactFilter2D z_Filter;
+    [SerializeField] private ContactFilter2D z_Filter;
     private List<Collider2D> z_CollidedObjects = new List<Collider2D>(1); // Only stores one object for collision.
-
-    GameController gameController;
-
-    [SerializeField]
-    protected GameObject expBar;
 
     protected virtual void Start()
     {
         z_Collider = GetComponent<Collider2D>();
-        expBar = GameObject.Find("XPBar");
     }
 
     protected virtual void Update()
