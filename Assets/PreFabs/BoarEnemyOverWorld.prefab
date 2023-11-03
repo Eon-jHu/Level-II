@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6126337623712248835}
   - component: {fileID: 6126337623712248832}
   m_Layer: 0
-  m_Name: BoarEnemy
+  m_Name: BoarEnemyOverWorld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,6 +141,7 @@ MonoBehaviour:
     maxNormalAngle: 0
   expBar: {fileID: 0}
   IsNotDestroyable: 1
+  IsNotInteractable: 0
 --- !u!95 &6126337623712248832
 Animator:
   serializedVersion: 4
