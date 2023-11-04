@@ -21,7 +21,7 @@ public class BattleHUD : MonoBehaviour
         nameText.text = unit.unitName;
         levelText.text = "Lvl " + unit.unitLevel;
         hpSlider.maxValue = unit.maxHP;
-        float hpPercentage = ((float)unit.currentHP / (float)unit.maxHP) * 100;
+        int hpPercentage = (int)(((float)unit.currentHP / (float)unit.maxHP) * 100);
         hpText.text = hpPercentage + "%";
         // Smoothly update the HP bar
         yield return ChangeValueSmoothly(hpSlider, (float)unit.currentHP);

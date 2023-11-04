@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 6126337623712248837}
   - component: {fileID: 6126337623712248836}
   - component: {fileID: 6126337623712248834}
+  - component: {fileID: 6929508760205654110}
   - component: {fileID: 6126337623712248835}
   - component: {fileID: 6126337623712248832}
   m_Layer: 0
-  m_Name: BoarEnemy
+  m_Name: BoarEnemyOverWorld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,6 +114,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.43185633, y: 0.22984564}
   m_EdgeRadius: 0
+--- !u!114 &6929508760205654110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6126337623712248839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed6811998630727468fa82b7c6266c9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BattleOrInteractionPrefab: {fileID: 3940620849224325088, guid: 2476491214ccc2645afa474228b21a47, type: 3}
 --- !u!114 &6126337623712248835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +155,7 @@ MonoBehaviour:
     maxNormalAngle: 0
   expBar: {fileID: 0}
   IsNotDestroyable: 1
+  IsNotInteractable: 0
 --- !u!95 &6126337623712248832
 Animator:
   serializedVersion: 4

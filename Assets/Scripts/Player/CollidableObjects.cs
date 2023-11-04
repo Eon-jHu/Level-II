@@ -5,14 +5,9 @@ using UnityEngine;
 public class CollidableObjects : MonoBehaviour
 {
     private Collider2D z_Collider;
-    [SerializeField]
-    private ContactFilter2D z_Filter;
+    [SerializeField] private ContactFilter2D z_Filter;
     private List<Collider2D> z_CollidedObjects = new List<Collider2D>(1); // Only stores one object for collision.
-
-    GameController gameController;
-
-    [SerializeField]
-    protected XPBar expBar;
+    [SerializeField] private DialogueHelper dialogueHelper;
 
     protected virtual void Start()
     {
@@ -30,7 +25,16 @@ public class CollidableObjects : MonoBehaviour
 
     protected virtual void OnCollided(GameObject collidedObject)
     {
-        //Debug.Log("Collided with " + collidedObject.name);
+        // checking if the game is in the world flipped state.
+        if (GameController.instance != null && (GameController.instance.IsInWorldFlip == true)) 
+        {
+            // checking that collision is only with player.
+            if (collidedObject.name == "Player_Overworld")
+            {
+                StartCoroutine(dialogueHelper.TypeDialogue("It seems as though there is a dead body here."));
+                //Debug.Log("Collided with " + collidedObject.name);
+            }
+        }
     }
 
 
