@@ -34,13 +34,11 @@ public class WorldFlipToggle : MonoBehaviour
             if (_renderer != null)
             {
                 _renderer.enabled = true;
-                Debug.Log(gameObject.name + "'s Renderer has been enabled!");
             }
 
             if (_image != null)
             {
                 _image.enabled = true;
-                Debug.Log(gameObject.name + "'s Image has been enabled!");
             }
       
         }
@@ -48,18 +46,14 @@ public class WorldFlipToggle : MonoBehaviour
         if (GameController.instance != null && (GameController.instance.IsInWorldFlip == false || Input.GetKeyDown(KeyCode.X)))  
         {
             // hide if not in world flip.
-            Debug.Log("Entered world flip hiding");
-            // hide
             if (_renderer != null)
             {
                 _renderer.enabled = false;
-                Debug.Log(gameObject.name + "'s Renderer has not been enabled!");
             }
 
             if (_image != null)
             {
                 _image.enabled = false;
-                Debug.Log(gameObject.name + "'s Image has been not enabled!");
             }
         }
     }
