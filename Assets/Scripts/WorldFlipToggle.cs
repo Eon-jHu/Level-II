@@ -14,18 +14,7 @@ public class WorldFlipToggle : MonoBehaviour
     void Awake()
     {
         _renderer = gameObject.GetComponent<Renderer>();
-
-        if (_renderer == null)
-        {
-            Debug.LogError("Renderer component not found on " + gameObject.name);
-        }
-
         _image = gameObject.GetComponent<Image>();
-
-        if (_renderer == null)
-        {
-            Debug.LogError("Image component not found on " + gameObject.name);
-        }
 
         //_controller = GetComponent<GameController>();
 

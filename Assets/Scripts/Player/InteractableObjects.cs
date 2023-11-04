@@ -9,30 +9,27 @@ public class InteractableObjects : CollidableObjects
 {
     private bool z_Interacted = false;
 
-
-    //[SerializeField]
-    //XPBar expBar;
-
     [SerializeField] private bool IsNotDestroyable = false;
     [SerializeField] private bool IsNotInteractable = false;
 
     protected override void OnCollided(GameObject collidedObject)
     {
-        if (Input.GetKey(KeyCode.E))
+        // Try cast the player as the collided Object
+        PlayerController player = collidedObject.GetComponent<PlayerController>();
+
+        if (player == null)
         {
-            // Try cast the player as the collided Object
-            PlayerController player = collidedObject.GetComponent<PlayerController>();
+            return;
+        }
 
-            if (player != null)
-            {
-                OnInteract(player);
-            }
-
+        if (Input.GetKey(KeyCode.E))
+        {  
+            OnInteract(player);
         }
 
         if (Input.GetMouseButton(0))
         {
-            OnAttack();
+            OnAttack(player);
         }
     }
 
@@ -42,23 +39,36 @@ public class InteractableObjects : CollidableObjects
         {
             z_Interacted = true;
 
-            _player.TriggerOnEncountered(); // enter battle scene.
+            // Trigger encounter with THIS object
+            _player.TriggerOnEncountered(gameObject);
 
-            Destroy(gameObject); // destroy after interaction.
+            Destroy(gameObject); // Destroy after interaction.
         }
     }
 
-    protected virtual void OnAttack()
+    protected virtual void OnAttack(PlayerController _player)
     {
-        if (!z_Interacted && !IsNotDestroyable) // only destroy is object is destroyable.
+        // Make sure it's not already interacted with
+        if (z_Interacted)
         {
-            z_Interacted = true;
+            return;
+        }
 
-            expBar.GetComponent<XPBar>().UpdateProgress(5.0f); // on destroy, add 5 XP to bar.
-
-            // play audio
-
+        // Destroyable objects simply delete themsleves and grant XP
+        if (!IsNotDestroyable)
+        {
+            GameController.instance.m_XPBar.UpdateProgress(5.0f);
             Destroy(gameObject);
         }
+        // Otherwise, you're going to INTERACT with it; in COMBAT
+        else
+        {
+            // TODO: OnInteract has a BOOLEAN, which will be TRUE if they're ATTACKING.
+            OnInteract(_player);
+        }
+
+        // TODO: Play audio
+
+        z_Interacted = true;
     }
 }

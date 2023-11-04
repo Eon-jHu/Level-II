@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
     [SerializeField] PlayerController m_PlayerController;
     [SerializeField] BattleSystem m_BattleSystem;
     [SerializeField] Camera m_WorldCamera;
-    [SerializeField] XPBar m_XPBar;
+    [SerializeField] public XPBar m_XPBar;
     [SerializeField] CameraShake m_CameraShake;
     [SerializeField] AudioManager m_AudioManager;
     [SerializeField] InteractableObjects m_Enemies;
@@ -63,11 +63,10 @@ public class GameController : MonoBehaviour
         m_CameraShake.OnShakeOver += EndWorldFlip;
     }
 
-    void StartBattle()
+    void StartBattle(GameObject _encountered)
     {
+        // Unflip
         IsInWorldFlip = false;
-        //Debug.Log("StartBattle triggered...");
-
         m_State = GameState.Battle;
         m_BattleSystem.gameObject.SetActive(true);
         m_WorldCamera.gameObject.SetActive(false);
@@ -75,12 +74,12 @@ public class GameController : MonoBehaviour
         // Store the xp as a tempory value
         tempXP = m_XPBar.GetTarget();
         Debug.Log("Target Value Temp Battle Begin: " + tempXP);
-
         m_XPBar.gameObject.SetActive(false);
 
         // Change Music
-        m_BattleSystem.Begin();
         m_AudioManager.SetMusic(GameState.Battle);
+
+        m_BattleSystem.Begin(m_PlayerController.gameObject.GetComponent<Engageable>().BattleOrInteractionPrefab, _encountered);
     }
     private void EndBattle(float _xp)
     {
@@ -97,8 +96,6 @@ public class GameController : MonoBehaviour
         m_BattleSystem.gameObject.SetActive(false);
         m_WorldCamera.gameObject.SetActive(true);
         m_XPBar.gameObject.SetActive(true);
-
-
 
         // bool set to false for battle
 

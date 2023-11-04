@@ -23,9 +23,6 @@ public class BattleSystem : MonoBehaviour
 
     public EBattleState battleState;
 
-    public GameObject playerPrefab;
-    public GameObject enemyPrefab;
-
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
 
@@ -45,20 +42,20 @@ public class BattleSystem : MonoBehaviour
     public event Action<float> OnBattleOver;
 
     // Called whenever a new battle starts
-    public void Begin()
+    public void Begin(GameObject _playerPrefab, GameObject _enemyPrefab)
     {
         battleState = EBattleState.START;
-        StartCoroutine(SetupBattle()); 
+        StartCoroutine(SetupBattle(_playerPrefab, _enemyPrefab)); 
     }
 
     // ================== BATTLE STATE FUNCTIONS ==================
 
-    IEnumerator SetupBattle()
+    IEnumerator SetupBattle(GameObject _playerPrefab, GameObject _enemyPrefab)
     {
         //Debug.Log("Setting up battle...");
 
-        GameObject playerGO = Instantiate(playerPrefab, playerBattleStation);
-        GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
+        GameObject playerGO = Instantiate(_playerPrefab, playerBattleStation);
+        GameObject enemyGO = Instantiate(_enemyPrefab, enemyBattleStation);
 
         playerBattleUnit = playerGO.GetComponent<BattleUnit>();
         enemyBattleUnit = enemyGO.GetComponent<BattleUnit>();
@@ -72,19 +69,23 @@ public class BattleSystem : MonoBehaviour
         // Dialogues For Initializing Battle
         StartCoroutine(dialogueHelper.SetupBattleDialogue(enemyBattleUnit.unitName));
         yield return new WaitForSeconds(1.0f);
-        StartCoroutine(dialogueHelper.ReadyForActionsDialogue());
-        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(ReadyForActions());
+    }
 
+    IEnumerator ReadyForActions()
+    {
+        StartCoroutine(dialogueHelper.ReadyForActionsDialogue());
         battleState = EBattleState.READY;
+        yield return new WaitForSeconds(1.5f);
     }
 
     IEnumerator PerformBattle()
     {
+        yield return new WaitForSeconds(1.25f);
         // Change BattleState
         battleState = EBattleState.RESOLVING;
 
-        yield return new WaitForSeconds(2.5f);
-
+        // Execute Strategy
         enemyBattleUnit.ExecuteBattleStrategy(playerBattleUnit.prevAction);
 
         // Battle Order: Ultis >> Blocks >> Attacks >> Charges >> CleanUp
@@ -237,8 +238,7 @@ public class BattleSystem : MonoBehaviour
         if (CheckAlive())
         {
             // Reset turn
-            StartCoroutine(dialogueHelper.ReadyForActionsDialogue());
-            battleState = EBattleState.READY;
+            StartCoroutine(ReadyForActions());
         }
         else
         {

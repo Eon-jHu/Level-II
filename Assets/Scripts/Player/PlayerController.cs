@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     // Start the BattleSystem
-    public event Action OnEncountered;
+    public delegate void OnEncounterHandler(GameObject _encountered);
+    public event OnEncounterHandler OnEncountered;
 
     private void Awake()
     {
@@ -40,12 +41,14 @@ public class PlayerController : MonoBehaviour
     }
 
     // Trigger OnEncountered
-    public void TriggerOnEncountered()
+    public void TriggerOnEncountered(GameObject _engageable)
     {
-        if (OnEncountered != null)
+        if (_engageable.GetComponent<Engageable>() == null)
         {
-            OnEncountered.Invoke(); 
+            return;
         }
+           
+        OnEncountered?.Invoke(_engageable.GetComponent<Engageable>().BattleOrInteractionPrefab); 
     }
 
     public void HandleUpdate() // For physics based & rigid body
