@@ -2380,6 +2380,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  dialogueHelper: {fileID: 0}
   IsNotDestroyable: 0
   IsNotInteractable: 1
 --- !u!212 &125652512
@@ -2676,7 +2677,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 352294322}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -2689,7 +2690,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -871671172, guid: 79e69ae278b75264d8ef89e5dbc34054, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4d577613c9d270146bafd7a434beea82, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5138,6 +5139,8 @@ GameObject:
   - component: {fileID: 1482556918}
   - component: {fileID: 1482556920}
   - component: {fileID: 1482556919}
+  - component: {fileID: 1482556922}
+  - component: {fileID: 1482556923}
   m_Layer: 0
   m_Name: DeadBody
   m_TagString: Untagged
@@ -5171,6 +5174,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  dialogueHelper: {fileID: 0}
   IsNotDestroyable: 0
   IsNotInteractable: 0
 --- !u!212 &1482556915
@@ -5315,6 +5319,59 @@ RectTransform:
   m_AnchoredPosition: {x: 15.71, y: 0.93}
   m_SizeDelta: {x: 0.48, y: 0.48}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!61 &1482556922
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482556912}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.008840509, y: -0.06759491}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.48, y: 0.48}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.3562314, y: 0.22651906}
+  m_EdgeRadius: 0
+--- !u!114 &1482556923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482556912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10ef05b6ce402dd43ab946a5b8599a29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  z_Filter:
+    useTriggers: 1
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  dialogueHelper: {fileID: 1752270446}
 --- !u!1 &1544918930
 GameObject:
   m_ObjectHideFlags: 0
@@ -5386,6 +5443,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  dialogueHelper: {fileID: 0}
   IsNotDestroyable: 0
   IsNotInteractable: 1
 --- !u!212 &1544918933
@@ -5526,6 +5584,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  dialogueHelper: {fileID: 0}
   IsNotDestroyable: 0
   IsNotInteractable: 1
 --- !u!212 &1637658438
@@ -5673,6 +5732,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6126337623712248834, guid: 1338c7c53a6655248bcd82123484308d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.5181159
+      objectReference: {fileID: 0}
+    - target: {fileID: 6126337623712248834, guid: 1338c7c53a6655248bcd82123484308d, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.036856875
+      objectReference: {fileID: 0}
     - target: {fileID: 6126337623712248835, guid: 1338c7c53a6655248bcd82123484308d, type: 3}
       propertyPath: expBar
       value: 
