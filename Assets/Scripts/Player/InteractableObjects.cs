@@ -24,7 +24,7 @@ public class InteractableObjects : CollidableObjects
 
     protected override void OnCollided(GameObject collidedObject)
     {
-        Debug.Log("HasSpecialSwordBool = " + HasSpecialSword);
+        //Debug.Log("HasSpecialSwordBool = " + HasSpecialSword);
         // Try cast the player as the collided Object
         PlayerController player = collidedObject.GetComponent<PlayerController>();
 
@@ -83,13 +83,13 @@ public class InteractableObjects : CollidableObjects
         {
             if (HasSpecialSword)
             {
-                Debug.Log("HasSpecialSword = " + HasSpecialSword);
+                //Debug.Log("HasSpecialSword = " + HasSpecialSword);
                 Destroy(gameObject);
                 Debug.Log("Deleted with Special Sword");
             }
             else if (!HasSpecialSword)
             {
-                Debug.Log("HasSpecialSword = " + HasSpecialSword);
+                //Debug.Log("HasSpecialSword = " + HasSpecialSword);
                 Debug.Log("You do not yet have enough XP!");
                 return;
             }
