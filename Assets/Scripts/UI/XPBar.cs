@@ -60,14 +60,14 @@ public class XPBar : MonoBehaviour
     public void Update()
     {
         // checking stages where player does not have enough XP to destroy boxes.
-        if (target < (37.5f / MaxXP) ||                                                         // tutorial boxes illegal XP.
-            ((target > (40.0f / MaxXP)) && (target < (77.5f / MaxXP))))                         // area 1 boxes illegal XP.
+        if (target < (37.0f / MaxXP))                                                        // tutorial boxes illegal XP.
+           // ((target > (40.0f / MaxXP)) && (target < (77.5f / MaxXP))))                         // area 1 boxes illegal XP.
         {
             Sword.SetHasSpecialSword(false);
         }
 
         // checking stages where the player has enough XP to destroy boxes.
-        if (target >= (37.5f / MaxXP) && target <= (40.0f / MaxXP))                             // tutorial boxes enough XP.
+        if (target >= (37.0f / MaxXP) && target <= (40.0f / MaxXP))                             // tutorial boxes enough XP.
         {
             Sword.SetHasSpecialSword(true);
         }
