@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8564657239410131853}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.57, y: 1.53, z: 0}
+  m_LocalPosition: {x: 3.453, y: 1.481, z: 0}
   m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 1237702047
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: ef8011e19d59e63449925c9481bdd1c0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 11163c03d1c53584ba99a54907e12ff6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -116,7 +116,6 @@ MonoBehaviour:
   IsNotDestroyable: 0
   IsNotInteractable: 0
   NeedsSpecialSword: 0
-  HasSpecialSword: 0
 --- !u!61 &8564657239410131851
 BoxCollider2D:
   m_ObjectHideFlags: 0
