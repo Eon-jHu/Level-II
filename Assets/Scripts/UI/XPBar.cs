@@ -35,6 +35,13 @@ public class XPBar : MonoBehaviour
 
     private float target;
 
+    private InteractableObjects Sword;
+
+    void Awake()
+    {
+        Sword = FindObjectOfType<InteractableObjects>();
+    }
+
     // setters and getters.
     public void SetWorldFlipIsTriggered(bool _TrueOrFalse)
     {
@@ -50,6 +57,22 @@ public class XPBar : MonoBehaviour
         UpdateLevel(level);
     }
 
+    public void Update()
+    {
+        // checking stages where player does not have enough XP to destroy boxes.
+        if (target < (37.5f / MaxXP) ||                                                         // tutorial boxes illegal XP.
+            ((target > (40.0f / MaxXP)) && (target < (77.5f / MaxXP))))                         // area 1 boxes illegal XP.
+        {
+            Sword.SetHasSpecialSword(false);
+        }
+
+        // checking stages where the player has enough XP to destroy boxes.
+        if (target >= (37.5f / MaxXP) && target <= (40.0f / MaxXP))                             // tutorial boxes enough XP.
+        {
+            Sword.SetHasSpecialSword(true);
+        }
+
+    }
     //void InitColor()
     //{
     //    fillBar.color = color;
@@ -67,16 +90,15 @@ public class XPBar : MonoBehaviour
         routine = StartCoroutine(FillRoutine(target, duration));
         Debug.Log("Current XP (XPBar) = " + target);
 
-        //while (!WorldFlipIsTriggered)
-        //{
-            if (target > (39.5f / MaxXP) && target < (40.5f / MaxXP))
-            {
-                Debug.Log("Notch has been reached");
 
-                TriggerOnXPNotch(); // enter world flip.
-            }
-        //}
-        
+        // checking for first notch being reached. TODO add more check for different XP bar notches.
+        if (target > (39.5f / MaxXP) && target < (40.5f / MaxXP))                                       // tutorial world flip XP.
+        {
+            // Debug.Log("Notch has been reached");
+
+            TriggerOnXPNotch(); // enter world flip.
+        }
+
     }
 
     private IEnumerator FillRoutine(float target, float duration)
