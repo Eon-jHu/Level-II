@@ -622,15 +622,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16703a1d03e17bf4aa010e7ad2b2b658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xpBar: {fileID: 7746220109220010647, guid: 76729ac726fa0aa4db33e34a7a951969, type: 3}
+  expBar: {fileID: 0}
   battleState: 0
-  playerPrefab: {fileID: 5642619767235962097, guid: 7578c985e6e685448a018a20efa590bf, type: 3}
-  enemyPrefab: {fileID: 3940620849224325088, guid: 2476491214ccc2645afa474228b21a47, type: 3}
   playerBattleStation: {fileID: 1870578481}
   enemyBattleStation: {fileID: 1505002202}
   playerHUD: {fileID: 712508621}
   enemyHUD: {fileID: 524027801}
   dialogueText: {fileID: 1862644407}
+  dialogueHelper: {fileID: 0}
+  xpOnWinBattle: 20
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3712,12 +3712,12 @@ SpriteRenderer:
   m_SortingLayerID: -816826581
   m_SortingLayer: 1
   m_SortingOrder: 11111
-  m_Sprite: {fileID: 21300000, guid: c7416435a6a4a7b49b8307e6af9df6eb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0c0bb5a1b868ca34bbd7d4c7fb6d19f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 10.24, y: 1.28}
+  m_Size: {x: 2, y: 0.34}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
