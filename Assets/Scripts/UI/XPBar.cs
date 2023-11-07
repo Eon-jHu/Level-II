@@ -33,8 +33,10 @@ public class XPBar : MonoBehaviour
 
     private Coroutine routine;
 
-    private float target;
-
+    private float target
+    {
+        get; set;
+    }
     private InteractableObjects Sword;
 
     void Awake()
@@ -88,10 +90,12 @@ public class XPBar : MonoBehaviour
             StopCoroutine(routine);
         }
         
-        target = currentAmount + (amount/MaxXP);
-        routine = StartCoroutine(FillRoutine(target, duration));
-        Debug.Log("Current XP (XPBar) = " + target);
-
+        if (!GameController.instance.IsInWorldFlip)
+        {
+            target = currentAmount + (amount / MaxXP);
+            routine = StartCoroutine(FillRoutine(target, duration));
+            Debug.Log("Current XP (XPBar) = " + target);
+        }
 
         // checking for first notch being reached. TODO add more check for different XP bar notches.
         if (target > (39.5f / MaxXP) && target < (40.5f / MaxXP))                                       // tutorial world flip XP.

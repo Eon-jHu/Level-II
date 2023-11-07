@@ -10,11 +10,11 @@ public class InteractableObjects : CollidableObjects
 {
     private static bool HasSpecialSword = false;
 
-    [SerializeField] private bool IsNotDestroyable = false;
+    [SerializeField] public bool IsNotDestroyable = false;
     [SerializeField] private bool IsNotInteractable = false;
-    [SerializeField] public bool NeedsSpecialSword = false;
+    //[SerializeField] public bool NeedsSpecialSword = false;
 
-    private bool z_Interacted = false;
+    public bool z_Interacted = false;
 
 
     public void SetHasSpecialSword(bool _hasSpecialSword)
@@ -78,22 +78,22 @@ public class InteractableObjects : CollidableObjects
             OnInteract(_player);
         }
 
-        // Checks if object needs upgraded sword to delete.
-        if (NeedsSpecialSword)
-        {
-            if (HasSpecialSword)
-            {
-                //Debug.Log("HasSpecialSword = " + HasSpecialSword);
-                Destroy(gameObject);
-                Debug.Log("Deleted with Special Sword");
-            }
-            else if (!HasSpecialSword)
-            {
-                //Debug.Log("HasSpecialSword = " + HasSpecialSword);
-                Debug.Log("You do not yet have enough XP!");
-                return;
-            }
-        }
+        //// Checks if object needs upgraded sword to delete.
+        //if (NeedsSpecialSword)
+        //{
+        //    if (HasSpecialSword)
+        //    {
+        //        //Debug.Log("HasSpecialSword = " + HasSpecialSword);
+        //        Destroy(gameObject);
+        //        Debug.Log("Deleted with Special Sword");
+        //    }
+        //    else if (!HasSpecialSword)
+        //    {
+        //        //Debug.Log("HasSpecialSword = " + HasSpecialSword);
+        //        Debug.Log("You do not yet have enough XP!");
+        //        return;
+        //    }
+        //}
 
         // TODO: Play audioa
 
