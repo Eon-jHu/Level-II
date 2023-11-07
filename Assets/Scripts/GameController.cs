@@ -87,7 +87,7 @@ public class GameController : MonoBehaviour
         // --- NOTE values not inputting correctly
         //Debug.Log("XP awarded in battle = " + _xp);
 
-        _xp = (20.0f / 240.0f);
+        _xp = (10.0f / 240.0f);
 
         //Debug.Log("Manual override of XP = " + _xp);
         // --- NOTE values not inputting correctly
@@ -153,7 +153,7 @@ public class GameController : MonoBehaviour
         //m_BattleSystem.Begin();
         m_AudioManager.SetMusic(GameState.WorldFlip);
 
-        CameraShake.Instance.ShakeCamera(1.0f, 20.0f);
+        CameraShake.Instance.ShakeCamera(1.0f, 5.0f);
     }
 
 
