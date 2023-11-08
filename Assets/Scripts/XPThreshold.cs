@@ -22,7 +22,7 @@ public class XPThreshold : MonoBehaviour
             // This object becomes not Destroyable
             gameObject.GetComponent<InteractableObjects>().IsNotDestroyable = false;
             gameObject.GetComponent<InteractableObjects>().z_Interacted = false;
-            Debug.Log(GameController.instance.m_XPBar.GetTarget() + " > " + (XPValueThreshold / 240.0f));
+            //Debug.Log(GameController.instance.m_XPBar.GetTarget() + " > " + (XPValueThreshold / 240.0f));
 
                
 
@@ -38,14 +38,14 @@ public class XPThreshold : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsClose = true;
-            Debug.Log("Player close");
+           // Debug.Log("Player close");
         }
     }
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player no longer close");
+            //Debug.Log("Player no longer close");
             playerIsClose = false;
             xpInfoPanel.SetActive(false);
         }

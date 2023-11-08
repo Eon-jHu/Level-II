@@ -76,6 +76,8 @@ public class XPBar : MonoBehaviour
             Sword.SetHasSpecialSword(true);
         }
 
+
+
     }
     //void InitColor()
     //{
@@ -98,10 +100,20 @@ public class XPBar : MonoBehaviour
         }
 
         // checking for first notch being reached. TODO add more check for different XP bar notches.
-        if (target > (39.5f / MaxXP) && target < (40.5f / MaxXP))                                       // tutorial world flip XP.
+        if (target > (39.5f / MaxXP) && target < (40.5f / MaxXP))
         {
             // Debug.Log("Notch has been reached");
+            TriggerOnXPNotch(); // enter world flip.
+        }
 
+        // first world flip for area 1.
+        if (target > (78.0f / MaxXP) && target < (79.0f / MaxXP))
+        {
+            TriggerOnXPNotch(); // enter world flip.
+        }
+
+        if (target > (118.0f / MaxXP) && target < (120.0f / MaxXP))
+        {
             TriggerOnXPNotch(); // enter world flip.
         }
 

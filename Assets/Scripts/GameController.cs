@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -65,6 +66,8 @@ public class GameController : MonoBehaviour
 
     void StartBattle(GameObject _encountered)
     {
+ 
+
         // Unflip
         IsInWorldFlip = false;
         m_State = GameState.Battle;
