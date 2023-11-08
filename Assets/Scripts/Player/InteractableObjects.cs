@@ -16,6 +16,8 @@ public class InteractableObjects : CollidableObjects
 
     public bool z_Interacted = false;
 
+    public GameObject dialoguePanel;
+
 
     public void SetHasSpecialSword(bool _hasSpecialSword)
     {
@@ -33,12 +35,12 @@ public class InteractableObjects : CollidableObjects
             return;
         }
 
-        if (Input.GetKey(KeyCode.E))
-        {  
-            OnInteract(player);
-        }
+        //if (Input.GetKey(KeyCode.E))
+        //{  
+        //    OnInteract(player);
+        //}
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !dialoguePanel.activeInHierarchy)
         {
             OnAttack(player);
         }
