@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
 
     private Animator animator;
 
+    public GameObject dialoguePanel;
+
     // Start the BattleSystem
     public delegate void OnEncounterHandler(GameObject _encountered);
     public event OnEncounterHandler OnEncountered;
@@ -50,7 +52,7 @@ public class PlayerController : MonoBehaviour
     private void OnAttack(InputValue value)
     {
 
-        if (value.isPressed && !animator.GetBool("IsAttacking"))
+        if (value.isPressed && !animator.GetBool("IsAttacking") && !dialoguePanel.activeInHierarchy)
         {
             animator.SetBool("IsAttacking", true);
 

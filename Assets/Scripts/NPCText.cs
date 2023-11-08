@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class NPCText : MonoBehaviour
 {
     public GameObject dialoguePanel;
@@ -13,12 +14,22 @@ public class NPCText : MonoBehaviour
     public float wordSpeed;
     public bool playerIsClose;
 
+    // Add a variable to track whether the NPC is in an encounter
+    private bool inEncounter = false;
+
+    private string[] initialDialogue; // Store the initial dialogue for resetting
+
+    void Start()
+    {
+        // Make a copy of the initial dialogue for this NPC
+        initialDialogue = new string[dialogue.Length];
+        dialogue.CopyTo(initialDialogue, 0);
+    }
+
     void Update()
     {
         if (playerIsClose)
         {
-            instructionPanel.SetActive(true);
-
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (dialoguePanel.activeInHierarchy)
@@ -28,6 +39,13 @@ public class NPCText : MonoBehaviour
                 else
                 {
                     dialoguePanel.SetActive(true);
+
+                    // Check if this is the start of a new encounter
+                    if (!inEncounter)
+                    {
+                        StartEncounter();
+                    }
+
                     StartCoroutine(Typing());
                 }
             }
@@ -35,18 +53,25 @@ public class NPCText : MonoBehaviour
             {
                 continueButton.SetActive(true);
             }
-
-        }
-        else
-        {
-            instructionPanel.SetActive(false);
         }
 
         if (dialoguePanel.activeInHierarchy && instructionPanel.activeInHierarchy)
         {
             instructionPanel.SetActive(false);
         }
+    }
 
+    // Add a function to start a new encounter
+    private void StartEncounter()
+    {
+        inEncounter = true;
+
+        // Reset the dialogue array to its initial state
+        dialogue = new string[initialDialogue.Length];
+        initialDialogue.CopyTo(dialogue, 0);
+
+        index = 0;
+        dialogueText.text = "";
     }
 
     public void ZeroText()
@@ -54,7 +79,11 @@ public class NPCText : MonoBehaviour
         dialogueText.text = "";
         index = 0;
         dialoguePanel.SetActive(false);
+
+        // Mark the encounter as ended
+        inEncounter = false;
     }
+
     IEnumerator Typing()
     {
         foreach (char letter in dialogue[index].ToCharArray())
@@ -63,6 +92,7 @@ public class NPCText : MonoBehaviour
             yield return new WaitForSeconds(wordSpeed);
         }
     }
+
     public void NextLine()
     {
         continueButton.SetActive(false);
@@ -77,17 +107,22 @@ public class NPCText : MonoBehaviour
             ZeroText();
         }
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
+            instructionPanel.SetActive(true);
+            Debug.Log("Entered proximity");
             playerIsClose = true;
         }
     }
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
+            instructionPanel.SetActive(false);
             playerIsClose = false;
             ZeroText();
         }
