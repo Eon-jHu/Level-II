@@ -6,6 +6,7 @@ public class NPCText : MonoBehaviour
 {
     public GameObject dialoguePanel;
     public Text dialogueText;
+    public GameObject instructionPanel;
     public string[] dialogue;
     public int index;
     public GameObject continueButton;
@@ -14,23 +15,40 @@ public class NPCText : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerIsClose)
+        if (playerIsClose)
         {
-            if (dialoguePanel.activeInHierarchy)
+            instructionPanel.SetActive(true);
+
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                ZeroText();
+                if (dialoguePanel.activeInHierarchy)
+                {
+                    ZeroText();
+                }
+                else
+                {
+                    dialoguePanel.SetActive(true);
+                    StartCoroutine(Typing());
+                }
             }
-            else
+            if (dialogueText.text == dialogue[index])
             {
-                dialoguePanel.SetActive(true);
-                StartCoroutine(Typing());
+                continueButton.SetActive(true);
             }
+
         }
-        if (dialogueText.text == dialogue[index])
+        else
         {
-            continueButton.SetActive(true);
+            instructionPanel.SetActive(false);
         }
+
+        if (dialoguePanel.activeInHierarchy && instructionPanel.activeInHierarchy)
+        {
+            instructionPanel.SetActive(false);
+        }
+
     }
+
     public void ZeroText()
     {
         dialogueText.text = "";
