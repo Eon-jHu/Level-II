@@ -33,8 +33,10 @@ public class XPBar : MonoBehaviour
 
     private Coroutine routine;
 
-    private float target;
-
+    private float target
+    {
+        get; set;
+    }
     private InteractableObjects Sword;
 
     void Awake()
@@ -61,14 +63,16 @@ public class XPBar : MonoBehaviour
     {
         // checking stages where player does not have enough XP to destroy boxes.
         if (target < (37.0f / MaxXP) ||                                                       // tutorial boxes illegal XP.
-           ((target > (40.0f / MaxXP)) && (target < (77.5f / MaxXP))))                         // area 1 boxes illegal XP.
+           ((target > (85.0f / MaxXP)) && (target < (102.5f / MaxXP))))                       // area 1 boxes illegal XP.
         {
+            Debug.Log("Not able to destroy boxes");
             Sword.SetHasSpecialSword(false);
         }
-
         // checking stages where the player has enough XP to destroy boxes.
-        if (target >= (37.0f / MaxXP) && target <= (40.0f / MaxXP))                             // tutorial boxes enough XP.
+        else if (target >= (37.0f / MaxXP) && target <= (40.0f / MaxXP) ||                         // tutorial boxes enough XP.
+            target >= (82.0f / MaxXP) && target <= (85.0f / MaxXP))                            // area 1 boxes enough XP.
         {
+            Debug.Log("Able to destroy boxes");
             Sword.SetHasSpecialSword(true);
         }
 
@@ -86,10 +90,12 @@ public class XPBar : MonoBehaviour
             StopCoroutine(routine);
         }
         
-        target = currentAmount + (amount/MaxXP);
-        routine = StartCoroutine(FillRoutine(target, duration));
-        Debug.Log("Current XP (XPBar) = " + target);
-
+        if (!GameController.instance.IsInWorldFlip)
+        {
+            target = currentAmount + (amount / MaxXP);
+            routine = StartCoroutine(FillRoutine(target, duration));
+            Debug.Log("Current XP (XPBar) = " + target);
+        }
 
         // checking for first notch being reached. TODO add more check for different XP bar notches.
         if (target > (39.5f / MaxXP) && target < (40.5f / MaxXP))                                       // tutorial world flip XP.
