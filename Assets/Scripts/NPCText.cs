@@ -11,6 +11,7 @@ public class NPCText : MonoBehaviour
     public GameObject continueButton;
     public float wordSpeed;
     public bool playerIsClose;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && playerIsClose)
