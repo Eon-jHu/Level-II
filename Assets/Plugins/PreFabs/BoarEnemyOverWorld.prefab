@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6126337623712248834}
   - component: {fileID: 6929508760205654110}
   - component: {fileID: 6126337623712248835}
+  - component: {fileID: 1298861280027273284}
   - component: {fileID: 6126337623712248832}
   m_Layer: 0
   m_Name: BoarEnemyOverWorld
@@ -127,7 +128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6811998630727468fa82b7c6266c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractionBackground: {fileID: 21300000, guid: 6f269701709332f479788b1abc09009c, type: 3}
   BattleOrInteractionPrefab: {fileID: 8326237384799582067, guid: c1be1015bd0efbc4386fa8869dfb4ecb, type: 3}
 --- !u!114 &6126337623712248835
 MonoBehaviour:
@@ -160,6 +160,20 @@ MonoBehaviour:
   IsNotInteractable: 0
   z_Interacted: 0
   dialoguePanel: {fileID: 0}
+--- !u!114 &1298861280027273284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6126337623712248839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2877837e266f2f64fb7372d19bf05cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instructionPanelBush: {fileID: 0}
+  playerIsClose: 0
 --- !u!95 &6126337623712248832
 Animator:
   serializedVersion: 4
