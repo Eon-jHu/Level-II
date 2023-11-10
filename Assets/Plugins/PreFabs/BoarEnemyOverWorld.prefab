@@ -127,7 +127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6811998630727468fa82b7c6266c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BattleOrInteractionPrefab: {fileID: 3940620849224325088, guid: 2476491214ccc2645afa474228b21a47, type: 3}
+  InteractionBackground: {fileID: 21300000, guid: 6f269701709332f479788b1abc09009c, type: 3}
+  BattleOrInteractionPrefab: {fileID: 8326237384799582067, guid: c1be1015bd0efbc4386fa8869dfb4ecb, type: 3}
 --- !u!114 &6126337623712248835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +159,7 @@ MonoBehaviour:
   IsNotDestroyable: 1
   IsNotInteractable: 0
   z_Interacted: 0
+  dialoguePanel: {fileID: 0}
 --- !u!95 &6126337623712248832
 Animator:
   serializedVersion: 4

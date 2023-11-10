@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public enum EBattleState
 {
@@ -29,6 +30,10 @@ public class BattleSystem : MonoBehaviour
     public BattleHUD playerHUD;
     public BattleHUD enemyHUD;
 
+    GameObject playerGO;
+    GameObject enemyGO;
+
+    [SerializeField] SpriteRenderer backgroundRenderer;
     BattleUnit playerBattleUnit;
     BattleUnit enemyBattleUnit;
 
@@ -54,11 +59,14 @@ public class BattleSystem : MonoBehaviour
     {
         //Debug.Log("Setting up battle...");
 
-        GameObject playerGO = Instantiate(_playerPrefab, playerBattleStation);
-        GameObject enemyGO = Instantiate(_enemyPrefab, enemyBattleStation);
+        playerGO = Instantiate(_playerPrefab, playerBattleStation);
+        enemyGO = Instantiate(_enemyPrefab, enemyBattleStation);
 
         playerBattleUnit = playerGO.GetComponent<BattleUnit>();
         enemyBattleUnit = enemyGO.GetComponent<BattleUnit>();
+
+        // Change the background to the one set on the prefab
+        backgroundRenderer.sprite = enemyBattleUnit.battleBackground;
 
         // Initialize HUDs
         StartCoroutine(playerHUD.LinkHUD(playerBattleUnit));
@@ -265,6 +273,11 @@ public class BattleSystem : MonoBehaviour
             StartCoroutine(dialogueHelper.TypeDialogue("You were defeated..."));
             bHasPlayerWon = false;
             xpOnWinBattle = 0.0f;
+        }
+
+        if (enemyGO)
+        {
+            Destroy(enemyGO);
         }
 
         StartCoroutine(ReturnToWorld(bHasPlayerWon));

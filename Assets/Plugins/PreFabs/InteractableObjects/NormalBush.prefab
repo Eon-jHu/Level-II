@@ -115,7 +115,8 @@ MonoBehaviour:
   dialogueHelper: {fileID: 0}
   IsNotDestroyable: 0
   IsNotInteractable: 0
-  NeedsSpecialSword: 0
+  z_Interacted: 0
+  dialoguePanel: {fileID: 8203678343214654318, guid: 11363c52a6e022f49b50d2e50cd376ca, type: 3}
 --- !u!61 &8564657239410131851
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -17,6 +17,9 @@ public enum EActionType
 // A PreFab of an enemy or player will have its own BattleUnit component which determines its capabilities in combat
 public class BattleUnit : MonoBehaviour
 {
+    // Background changes for each character
+    public Sprite battleBackground;
+
     public string unitName;
     public int unitLevel;
 

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1153388667793308838}
   - component: {fileID: 1153388667793308837}
+  - component: {fileID: 4774599213310109901}
   - component: {fileID: 1153388667793308834}
   - component: {fileID: 1153388667793308833}
   - component: {fileID: 1153388667793308832}
@@ -89,6 +90,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4774599213310109901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153388667793308836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b05d15650011f64991b76c7258069f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialoguePanel: {fileID: 0}
+  dialogueText: {fileID: 0}
+  instructionPanel: {fileID: 0}
+  dialogue: []
+  index: 0
+  continueButton: {fileID: 0}
+  wordSpeed: 0
+  playerIsClose: 0
 --- !u!95 &1153388667793308834
 Animator:
   serializedVersion: 4
@@ -165,6 +186,7 @@ MonoBehaviour:
   IsNotDestroyable: 1
   IsNotInteractable: 0
   z_Interacted: 0
+  dialoguePanel: {fileID: 0}
 --- !u!114 &1153388667793308839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,7 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6811998630727468fa82b7c6266c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BattleOrInteractionPrefab: {fileID: 0}
+  InteractionBackground: {fileID: 3175923315936784409, guid: bdd128b389f2d2c46a2bfc30744b1d0d, type: 3}
+  BattleOrInteractionPrefab: {fileID: 1676862064987580582, guid: bbf591dde6b76784293ac39ae76c8953, type: 3}
 --- !u!1001 &2787245049178258677
 PrefabInstance:
   m_ObjectHideFlags: 0
