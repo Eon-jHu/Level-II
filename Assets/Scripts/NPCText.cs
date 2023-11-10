@@ -9,7 +9,7 @@ public class NPCText : MonoBehaviour
     public Text dialogueText;
     public GameObject instructionPanel;
     public string[] dialogue;
-    public int index;
+    public int index;   
     public GameObject continueButton;
     public float wordSpeed;
     public bool playerIsClose;
@@ -95,8 +95,9 @@ public class NPCText : MonoBehaviour
 
     public void NextLine()
     {
+        Debug.Log(index);
         continueButton.SetActive(false);
-        if (index < dialogue.Length)
+        if (index < (dialogue.Length - 1))
         {
             index++;
             dialogueText.text = "";

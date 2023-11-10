@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
     public bool IsInWorldFlip = false;
 
     GameState m_State;
-    [SerializeField] PlayerController m_PlayerController;
+    [SerializeField] public PlayerController m_PlayerController;
     [SerializeField] BattleSystem m_BattleSystem;
     [SerializeField] Camera m_WorldCamera;
     [SerializeField] public XPBar m_XPBar;
@@ -165,7 +165,7 @@ public class GameController : MonoBehaviour
     {
         if (m_State == GameState.FreeRoam || m_State == GameState.WorldFlip)
         {
-            m_PlayerController.HandleUpdate();
+            m_PlayerController.HandleUpdate(); 
         }
         else if (m_State == GameState.Battle)
         {
