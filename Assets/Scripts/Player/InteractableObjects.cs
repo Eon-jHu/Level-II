@@ -71,9 +71,12 @@ public class InteractableObjects : CollidableObjects
         //    OnInteract(player);
         //}
 
-        if (Input.GetMouseButton(0) && !dialoguePanel.activeInHierarchy)
+        if (GameController.instance != null && (GameController.instance.IsInWorldFlip == false))
         {
-            OnAttack(player);
+            if (Input.GetMouseButton(0) && !dialoguePanel.activeInHierarchy) // and check for the world flip bool
+            {
+                OnAttack(player);
+            }
         }
     }
 

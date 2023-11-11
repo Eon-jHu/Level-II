@@ -156,7 +156,7 @@ public class GameController : MonoBehaviour
         //m_BattleSystem.Begin();
         m_AudioManager.SetMusic(GameState.WorldFlip);
 
-        CameraShake.Instance.ShakeCamera(1.0f, 5.0f);
+        CameraShake.Instance.ShakeCamera(1.0f, 15.0f);
     }
 
 

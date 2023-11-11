@@ -112,7 +112,14 @@ public class XPBar : MonoBehaviour
             TriggerOnXPNotch(); // enter world flip.
         }
 
+        // second world flip for area 1.
         if (target > (118.0f / MaxXP) && target < (120.0f / MaxXP))
+        {
+            TriggerOnXPNotch(); // enter world flip.
+        }
+
+        // World flip for cave area 2.
+        if (target > (158.0f / MaxXP) && target < (160.5f / MaxXP))
         {
             TriggerOnXPNotch(); // enter world flip.
         }
