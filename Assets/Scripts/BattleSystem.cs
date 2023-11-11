@@ -256,6 +256,13 @@ public class BattleSystem : MonoBehaviour
         yield return null;
     }
 
+    public void ResetTheGame()
+    {
+        //SceneManager.LoadSceneAsync("BattleScene");
+        SceneManager.LoadSceneAsync("MainWorld");
+        Debug.Log("Game has been reset");
+    }
+
     private void EndBattle()
     {
         bool bHasPlayerWon = true;
@@ -270,10 +277,12 @@ public class BattleSystem : MonoBehaviour
         }
         else if (battleState == EBattleState.LOST)
         {
-            StartCoroutine(dialogueHelper.TypeDialogue("You were defeated..."));
+            StartCoroutine(dialogueHelper.TypeDialogue("You were defeated... Restarting Cecils Journey."));
+            ResetTheGame();
             bHasPlayerWon = false;
             xpOnWinBattle = 0.0f;
         }
+
 
         if (enemyGO)
         {
