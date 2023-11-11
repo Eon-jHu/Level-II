@@ -25,16 +25,16 @@ public class CollidableObjects : MonoBehaviour
 
     protected virtual void OnCollided(GameObject collidedObject)
     {
-        // checking if the game is in the world flipped state.
-        if (GameController.instance != null && (GameController.instance.IsInWorldFlip == true)) 
-        {
-            // checking that collision is only with player.
-            if (collidedObject.name == "Player_Overworld")
-            {
-                StartCoroutine(dialogueHelper.TypeDialogue("It seems as though there is a dead body here."));
-                //Debug.Log("Collided with " + collidedObject.name);
-            }
-        }
+        //// checking if the game is in the world flipped state.
+        //if (GameController.instance != null && (GameController.instance.IsInWorldFlip == true)) 
+        //{
+        //    // checking that collision is only with player.
+        //    if (collidedObject.name == "Player_Overworld")
+        //    {
+        //        StartCoroutine(dialogueHelper.TypeDialogue("It seems as though there is a dead body here."));
+        //        //Debug.Log("Collided with " + collidedObject.name);
+        //    }
+        //}
     }
 
 

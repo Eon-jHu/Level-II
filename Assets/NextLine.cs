@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class NextLine : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class NextLine : MonoBehaviour
 
         int numOfCollidedObjects = GameController.instance.m_PlayerController.gameObject.GetComponent<Collider2D>().
             OverlapCollider(filter, otherCollisionObjects);
+
+
 
         for (int i = 0; i < numOfCollidedObjects; i++)
         {

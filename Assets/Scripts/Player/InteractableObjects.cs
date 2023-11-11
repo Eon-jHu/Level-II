@@ -12,11 +12,42 @@ public class InteractableObjects : CollidableObjects
 
     [SerializeField] public bool IsNotDestroyable = false;
     [SerializeField] private bool IsNotInteractable = false;
+    // public GameObject FloatingPoints;
     //[SerializeField] public bool NeedsSpecialSword = false;
+
+    private AudioSource AudioSource;
+    public AudioClip BushRustle;
 
     public bool z_Interacted = false;
 
     public GameObject dialoguePanel;
+
+    private void Awake()
+    {
+        AudioSource = GetComponent<AudioSource>();
+    }
+
+    public void PlayBushRustle()
+    {
+        if (AudioSource != null)
+        {
+            AudioSource.clip = BushRustle;
+            AudioSource.enabled = true; // Enable the AudioSource before playing
+            AudioSource.Play();
+            Debug.Log("Audio should have played");
+            StartCoroutine(DisableAudioSourceAfterClipEnds());
+        }
+        else
+        {
+            Debug.LogError("AudioSource is not assigned!");
+        }
+    }
+
+    private IEnumerator DisableAudioSourceAfterClipEnds()
+    {
+        yield return new WaitForSeconds(AudioSource.clip.length);
+        AudioSource.enabled = false; // Disable the AudioSource after the clip ends
+    }
 
 
     public void SetHasSpecialSword(bool _hasSpecialSword)
@@ -70,8 +101,10 @@ public class InteractableObjects : CollidableObjects
         // Destroyable objects simply delete themsleves and grant XP
         if (!IsNotDestroyable)
         {
+            PlayBushRustle();
             GameController.instance.m_XPBar.UpdateProgress(2.5f);
             Destroy(gameObject);
+            //Instantiate(FloatingPoints, transform.position, Quaternion.identity, transform);
         }
         // Otherwise, you're going to INTERACT with it; in COMBAT
         else
@@ -96,8 +129,6 @@ public class InteractableObjects : CollidableObjects
         //        return;
         //    }
         //}
-
-        // TODO: Play audioa
 
         z_Interacted = true;
     }

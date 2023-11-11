@@ -13,6 +13,8 @@ public class NPCText : MonoBehaviour
     public GameObject continueButton;
     public float wordSpeed;
     public bool playerIsClose;
+    private bool endOfText = false;
+    public Image panelImage;
 
     // Add a variable to track whether the NPC is in an encounter
     private bool inEncounter = false;
@@ -30,6 +32,7 @@ public class NPCText : MonoBehaviour
     {
         if (playerIsClose)
         {
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (dialoguePanel.activeInHierarchy)
@@ -52,6 +55,11 @@ public class NPCText : MonoBehaviour
             if (dialogueText.text == dialogue[index])
             {
                 continueButton.SetActive(true);
+
+                if (index == dialogue.Length - 1)
+                {
+                    endOfText = true;
+                }
             }
         }
 
@@ -105,7 +113,13 @@ public class NPCText : MonoBehaviour
         }
         else
         {
+            endOfText = true;
             ZeroText();
+
+            if (endOfText)
+            {
+                Debug.Log("End of the text has been reached");
+            }
         }
     }
 
