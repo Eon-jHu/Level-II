@@ -52,7 +52,7 @@ MonoBehaviour:
   blockMod: 0
   maxHP: 10
   currentHP: 1
-  maxEnergy: 10
+  maxEnergy: 8
   currentEnergy: 0
   isAlive: 1
   isHit: 0
