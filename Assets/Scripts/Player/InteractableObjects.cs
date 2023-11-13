@@ -39,7 +39,7 @@ public class InteractableObjects : CollidableObjects
         }
         else
         {
-            Debug.LogError("AudioSource is not assigned!");
+            Debug.Log("AudioSource is not assigned!");
         }
     }
 
@@ -110,7 +110,7 @@ public class InteractableObjects : CollidableObjects
             //Instantiate(FloatingPoints, transform.position, Quaternion.identity, transform);
         }
         // Otherwise, you're going to INTERACT with it; in COMBAT
-        else
+        else if (!dialoguePanel.activeInHierarchy)
         {
             // TODO: OnInteract has a BOOLEAN, which will be TRUE if they're ATTACKING.
             OnInteract(_player);

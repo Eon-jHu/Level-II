@@ -64,9 +64,13 @@ public class GameController : MonoBehaviour
         m_CameraShake.OnShakeOver += EndWorldFlip;
     }
 
-    void StartBattle(GameObject _encountered)
+    private void StartBattle(GameObject _encountered)
     {
- 
+        // Do NOT start a battle if the BattleSystem is already active
+        if (m_BattleSystem.isActiveAndEnabled)
+        {
+            return;
+        }
 
         // Unflip
         IsInWorldFlip = false;
@@ -134,7 +138,7 @@ public class GameController : MonoBehaviour
         // m_Enemies.gameObject.SetActive(true);
         m_AudioManager.SetMusic(GameState.FreeRoam);
     }
-    void StartWorldFlip()
+    public void StartWorldFlip()
     {
         IsInWorldFlip = true;
         Debug.Log("World Flip triggered");

@@ -14,8 +14,6 @@ public class NextLine : MonoBehaviour
         int numOfCollidedObjects = GameController.instance.m_PlayerController.gameObject.GetComponent<Collider2D>().
             OverlapCollider(filter, otherCollisionObjects);
 
-
-
         for (int i = 0; i < numOfCollidedObjects; i++)
         {
             otherCollisionObjects[i].gameObject.GetComponent<NPCText>()?.NextLine();

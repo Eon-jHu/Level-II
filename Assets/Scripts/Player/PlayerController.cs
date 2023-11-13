@@ -51,8 +51,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnAttack(InputValue value)
     {
-
-        if (value.isPressed && !animator.GetBool("IsAttacking") && !dialoguePanel.activeInHierarchy)
+        if (value.isPressed && !animator.GetBool("IsAttacking") && !dialoguePanel.activeInHierarchy && !GameController.instance.IsInWorldFlip)
         {
             animator.SetBool("IsAttacking", true);
 

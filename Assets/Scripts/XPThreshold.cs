@@ -24,10 +24,8 @@ public class XPThreshold : MonoBehaviour
             gameObject.GetComponent<InteractableObjects>().z_Interacted = false;
             //Debug.Log(GameController.instance.m_XPBar.GetTarget() + " > " + (XPValueThreshold / 240.0f));
 
-               
-
         }
-        else if (playerIsClose)
+        else if (playerIsClose && !GameController.instance.IsInWorldFlip)
         {
             xpInfoPanel.SetActive(true);
         }

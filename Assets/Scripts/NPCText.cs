@@ -119,6 +119,12 @@ public class NPCText : MonoBehaviour
             if (endOfText)
             {
                 Debug.Log("End of the text has been reached");
+
+                // Enter combat if engageable
+                if (gameObject.GetComponent<Engageable>() != null)
+                {
+                    GameController.instance.m_PlayerController.TriggerOnEncountered(gameObject);
+                }
             }
         }
     }
