@@ -130,6 +130,12 @@ public class XPBar : MonoBehaviour
             TriggerOnXPNotch(); // enter world flip.
         }
 
+        // Final World Flip.
+        if (target > (235.0f / MaxXP))
+        {
+            TriggerOnXPNotch(); // enter world flip.
+        }
+
     }
 
     private IEnumerator FillRoutine(float target, float duration)
