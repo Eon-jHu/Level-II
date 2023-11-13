@@ -8,7 +8,9 @@ public enum GameState
 {
     FreeRoam,
     Battle,
-    WorldFlip
+    WorldFlip,
+    FinalBattle,
+    FinalRoam
 }
 
 
@@ -26,7 +28,7 @@ public class GameController : MonoBehaviour
     [SerializeField] Camera m_WorldCamera;
     [SerializeField] public XPBar m_XPBar;
     [SerializeField] CameraShake m_CameraShake;
-    [SerializeField] AudioManager m_AudioManager;
+    [SerializeField] public AudioManager m_AudioManager;
     [SerializeField] InteractableObjects m_Enemies;
 
     private float tempXP;
@@ -34,6 +36,7 @@ public class GameController : MonoBehaviour
 
     // returning info.
     public GameState GetState { get { return m_State; } }
+    public void SetState(GameState _state) { m_State = _state; }
 
     public bool GetIsInWorldFlip()  
     { 
@@ -84,7 +87,10 @@ public class GameController : MonoBehaviour
         m_XPBar.gameObject.SetActive(false);
 
         // Change Music
-        m_AudioManager.SetMusic(GameState.Battle);
+        if (!m_AudioManager.dontChangeMusic)
+        {
+            m_AudioManager.SetMusic(GameState.Battle);
+        }
 
         m_BattleSystem.Begin(m_PlayerController.gameObject.GetComponent<Engageable>().BattleOrInteractionPrefab, _encountered);
     }
@@ -120,7 +126,10 @@ public class GameController : MonoBehaviour
 
         // Add temp xp + new xp
         m_XPBar.UpdateProgress(newXP);
-        m_AudioManager.SetMusic(GameState.FreeRoam);
+        if (!m_AudioManager.dontChangeMusic)
+        {
+            m_AudioManager.SetMusic(GameState.FreeRoam);
+        }
     }
     public void EndWorldFlip()
     {
@@ -136,7 +145,10 @@ public class GameController : MonoBehaviour
         m_XPBar.UpdateProgress(newXP);
 
         // m_Enemies.gameObject.SetActive(true);
-        m_AudioManager.SetMusic(GameState.FreeRoam);
+        if (!m_AudioManager.dontChangeMusic)
+        {
+            m_AudioManager.SetMusic(GameState.FreeRoam);
+        }
     }
     public void StartWorldFlip()
     {
@@ -157,8 +169,10 @@ public class GameController : MonoBehaviour
         //m_Enemies.gameObject.SetActive(false);
 
         //// Change Music
-        //m_BattleSystem.Begin();
-        m_AudioManager.SetMusic(GameState.WorldFlip);
+        if (!m_AudioManager.dontChangeMusic)
+        {
+            m_AudioManager.SetMusic(GameState.WorldFlip);
+        }
 
         CameraShake.Instance.ShakeCamera(1.0f, 15.0f);
     }

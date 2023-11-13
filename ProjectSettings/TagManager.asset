@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - TimmyBody
+  - FinalBoss
+  - Timmy(Final)
   layers:
   - Default
   - TransparentFX

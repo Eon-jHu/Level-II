@@ -85,7 +85,6 @@ public class InteractableObjects : CollidableObjects
         // Otherwise, you're going to INTERACT with it; in COMBAT
         else if (!dialoguePanel.activeInHierarchy)
         {
-            // TODO: OnInteract has a BOOLEAN, which will be TRUE if they're ATTACKING.
             OnInteract(_player);
         }
 

@@ -71,7 +71,17 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-           
+
+        if (_engageable.tag == "FinalBoss")
+        {
+            GameController.instance.m_AudioManager.SetMusic(GameState.FinalBattle);
+        }
+
+        if (_engageable.tag == "Timmy(Final)")
+        {
+            GameController.instance.m_AudioManager.dontChangeMusic = false;
+        }
+
         OnEncountered?.Invoke(_engageable.GetComponent<Engageable>().BattleOrInteractionPrefab); 
     }
 

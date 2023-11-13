@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 8733216884486759078}
   m_Layer: 0
   m_Name: DaddyExecutioner
-  m_TagString: Untagged
+  m_TagString: FinalBoss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -207,7 +207,7 @@ MonoBehaviour:
   dialogueHelper: {fileID: 0}
   IsNotDestroyable: 1
   IsNotInteractable: 0
-  BushRustle: {fileID: 0}
+  FloatingText: {fileID: 0}
   z_Interacted: 0
   dialoguePanel: {fileID: 0}
 --- !u!114 &8733216884486759078
