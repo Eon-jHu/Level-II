@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private int speed = 5;
 
+    public AudioSource bushSoundEffect;
+    public AudioSource swordSoundEffect;
+
     private Vector2 movement;
 
     private Rigidbody2D rb;
@@ -54,6 +57,7 @@ public class PlayerController : MonoBehaviour
         if (value.isPressed && !animator.GetBool("IsAttacking") && !dialoguePanel.activeInHierarchy && !GameController.instance.IsInWorldFlip)
         {
             animator.SetBool("IsAttacking", true);
+            swordSoundEffect.Play();
 
             StartCoroutine(Pause());
         }
