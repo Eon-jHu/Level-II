@@ -155,9 +155,9 @@ MonoBehaviour:
   unitLevel: 3
   attackMod: 0
   blockMod: 0
-  maxHP: 10
-  currentHP: 1
-  maxEnergy: 5
+  maxHP: 20
+  currentHP: 20
+  maxEnergy: 6
   currentEnergy: 0
   isAlive: 1
   isHit: 0

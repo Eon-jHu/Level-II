@@ -49,10 +49,10 @@ MonoBehaviour:
   unitName: Guard
   unitLevel: 5
   attackMod: 0
-  blockMod: 0
-  maxHP: 10
-  currentHP: 1
-  maxEnergy: 8
+  blockMod: 5
+  maxHP: 25
+  currentHP: 25
+  maxEnergy: 5
   currentEnergy: 0
   isAlive: 1
   isHit: 0

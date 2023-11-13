@@ -48,11 +48,11 @@ MonoBehaviour:
   battleBackground: {fileID: 21300000, guid: a47f3646bd2351f46b885c43f2431dfb, type: 3}
   unitName: Slime
   unitLevel: 1
-  attackMod: 0
-  blockMod: 0
-  maxHP: 10
-  currentHP: 1
-  maxEnergy: 5
+  attackMod: -9
+  blockMod: -9
+  maxHP: 20
+  currentHP: 20
+  maxEnergy: 9
   currentEnergy: 0
   isAlive: 1
   isHit: 0

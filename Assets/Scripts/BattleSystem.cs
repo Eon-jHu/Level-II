@@ -76,7 +76,7 @@ public class BattleSystem : MonoBehaviour
 
         // Dialogues For Initializing Battle
         StartCoroutine(dialogueHelper.SetupBattleDialogue(enemyBattleUnit.unitName));
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1.25f);
         StartCoroutine(ReadyForActions());
     }
 

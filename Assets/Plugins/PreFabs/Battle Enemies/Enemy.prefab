@@ -129,10 +129,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32944b9c5ee85f442b6053abb55c93e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  battleBackground: {fileID: 0}
   unitName: Farmer
   unitLevel: 1
   attackMod: 0
-  blockMod: 0
+  blockMod: -5
   maxHP: 10
   currentHP: 10
   maxEnergy: 5

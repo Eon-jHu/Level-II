@@ -18,6 +18,7 @@ public class NPCText : MonoBehaviour
 
     // Add a variable to track whether the NPC is in an encounter
     private bool inEncounter = false;
+    private bool isTyping = false;
 
     private string[] initialDialogue; // Store the initial dialogue for resetting
 
@@ -37,7 +38,7 @@ public class NPCText : MonoBehaviour
             {
                 if (dialoguePanel.activeInHierarchy)
                 {
-                    ZeroText();
+                    NextLine();
                 }
                 else
                 {
@@ -49,16 +50,27 @@ public class NPCText : MonoBehaviour
                         StartEncounter();
                     }
 
-                    StartCoroutine(Typing());
+                    if (!isTyping)
+                    {
+                        StartCoroutine(Typing());
+                    }
                 }
             }
-            if (dialogueText.text == dialogue[index])
+
+            if (dialogueText.text == dialogue[index] && index < (dialogue.Length - 1))
             {
                 continueButton.SetActive(true);
+            }
+            else if (index == dialogue.Length - 1)
+            {
+                endOfText = true;
+            }
 
-                if (index == dialogue.Length - 1)
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (dialoguePanel.activeInHierarchy)
                 {
-                    endOfText = true;
+                    NextLine();
                 }
             }
         }
@@ -73,6 +85,8 @@ public class NPCText : MonoBehaviour
     private void StartEncounter()
     {
         inEncounter = true;
+
+        GameController.instance.m_PlayerController.interactAudioEffect.Play();
 
         // Reset the dialogue array to its initial state
         dialogue = new string[initialDialogue.Length];
@@ -94,22 +108,40 @@ public class NPCText : MonoBehaviour
 
     IEnumerator Typing()
     {
-        foreach (char letter in dialogue[index].ToCharArray())
+        if (!isTyping)
         {
-            dialogueText.text += letter;
-            yield return new WaitForSeconds(wordSpeed);
+            isTyping = true;
+
+            foreach (char letter in dialogue[index].ToCharArray())
+            {
+                dialogueText.text += letter;
+                yield return new WaitForSeconds(wordSpeed);
+            }
+
+            isTyping = false;
         }
     }
 
     public void NextLine()
     {
-        Debug.Log(index);
         continueButton.SetActive(false);
+
+        if (isTyping)
+        {
+            StopAllCoroutines();
+            isTyping = false;
+            dialogueText.text = dialogue[index];
+            return;
+        }
+
         if (index < (dialogue.Length - 1))
         {
-            index++;
-            dialogueText.text = "";
-            StartCoroutine(Typing());
+            if (!isTyping)
+            {
+                index++;
+                dialogueText.text = "";
+                StartCoroutine(Typing());
+            }
         }
         else
         {

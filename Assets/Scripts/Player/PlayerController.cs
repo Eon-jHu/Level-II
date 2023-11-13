@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     public AudioSource bushSoundEffect;
     public AudioSource swordSoundEffect;
+    public AudioSource interactAudioEffect;
 
     private Vector2 movement;
 

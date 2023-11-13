@@ -17,7 +17,7 @@ public class AudioManager : MonoBehaviour
             { 
                 m_AudioSource.clip = m_WorldMusic[0];
                 m_AudioSource.Play();
-                    m_AudioSource.volume = 1f;
+                    m_AudioSource.volume = 0.5f;
                     break;
             }
 
@@ -25,7 +25,7 @@ public class AudioManager : MonoBehaviour
             {
                 m_AudioSource.clip = m_BattleMusic[0];
                 m_AudioSource.Play();
-                m_AudioSource.volume = 0.09f;
+                m_AudioSource.volume = 0.05f;
                 break;
             }
 
@@ -33,7 +33,7 @@ public class AudioManager : MonoBehaviour
             {
                 m_AudioSource.clip = m_WorldFlippedMusic[0];
                 m_AudioSource.Play();
-                    m_AudioSource.volume = 1f;
+                    m_AudioSource.volume = 0.75f;
                     break;
             }
         }

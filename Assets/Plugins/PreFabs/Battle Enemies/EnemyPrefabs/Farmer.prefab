@@ -154,9 +154,9 @@ MonoBehaviour:
   unitName: Farmer
   unitLevel: 1
   attackMod: 0
-  blockMod: 0
+  blockMod: -5
   maxHP: 10
-  currentHP: 1
+  currentHP: 10
   maxEnergy: 5
   currentEnergy: 0
   isAlive: 1
