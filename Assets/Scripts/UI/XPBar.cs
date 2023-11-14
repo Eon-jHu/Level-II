@@ -125,13 +125,13 @@ public class XPBar : MonoBehaviour
         }
 
         // World flip 1 for final area 3.
-        if (target > (199.0f / MaxXP) && target < (201.5f / MaxXP))
+        if (target > (199.0f / MaxXP) && target < (201.6f / MaxXP))
         {
             TriggerOnXPNotch(); // enter world flip.
         }
 
         // Final World Flip.
-        if (target > (235.0f / MaxXP))
+        if (target > (226.0f / MaxXP))
         {
             TriggerOnXPNotch(); // enter world flip.
         }
