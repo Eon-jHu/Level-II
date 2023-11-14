@@ -155,8 +155,8 @@ MonoBehaviour:
   unitLevel: 2
   attackMod: 0
   blockMod: -5
-  maxHP: 20
-  currentHP: 15
+  maxHP: 25
+  currentHP: 20
   maxEnergy: 8
   currentEnergy: 0
   isAlive: 1

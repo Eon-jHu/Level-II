@@ -50,6 +50,10 @@ public class InteractableObjects : CollidableObjects
             {
                 OnAttack(player);
             }
+            else if (Input.GetMouseButton(1))
+            {
+                return;
+            }
         }
     }
 
