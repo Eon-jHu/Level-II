@@ -25,7 +25,7 @@ public class XPThreshold : MonoBehaviour
             //Debug.Log(GameController.instance.m_XPBar.GetTarget() + " > " + (XPValueThreshold / 240.0f));
 
         }
-        else if (playerIsClose && !GameController.instance.IsInWorldFlip)
+        else if (playerIsClose && !GameController.instance.IsInWorldFlip && GameController.instance.State != GameState.Battle)
         {
             xpInfoPanel.SetActive(true);
         }

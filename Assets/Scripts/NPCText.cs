@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -57,7 +58,7 @@ public class NPCText : MonoBehaviour
                 }
             }
 
-            if (dialogueText.text == dialogue[index] && index < (dialogue.Length - 1))
+            if (dialogueText.text == dialogue[index] && index < (dialogue.Length))
             {
                 continueButton.SetActive(true);
             }
@@ -84,8 +85,12 @@ public class NPCText : MonoBehaviour
     // Add a function to start a new encounter
     private void StartEncounter()
     {
-        inEncounter = true;
+        if (GameController.instance.State != GameState.FreeRoam)
+        {
+            return;
+        }
 
+        inEncounter = true;
         GameController.instance.m_PlayerController.interactAudioEffect.Play();
 
         // Reset the dialogue array to its initial state
@@ -124,6 +129,11 @@ public class NPCText : MonoBehaviour
 
     public void NextLine()
     {
+        if (GameController.instance.State != GameState.FreeRoam)
+        {
+            return;
+        }
+
         continueButton.SetActive(false);
 
         if (isTyping)
@@ -152,10 +162,11 @@ public class NPCText : MonoBehaviour
             {
                 Debug.Log("End of the text has been reached");
 
-                // Enter combat if engageable
+                // Enter combat if engageable and disable this object
                 if (gameObject.GetComponent<Engageable>() != null)
                 {
                     GameController.instance.m_PlayerController.TriggerOnEncountered(gameObject);
+                    gameObject.SetActive(false);
                 }
             }
         }
@@ -163,7 +174,7 @@ public class NPCText : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && GameController.instance.State != GameState.Battle)
         {
             instructionPanel.SetActive(true);
             Debug.Log("Entered proximity");

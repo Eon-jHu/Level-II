@@ -15,14 +15,19 @@ public class AudioManager : MonoBehaviour
 
     public void SetMusic(GameState _gameState)
     {
+        if (m_AudioSource == null)
+        {
+            return;
+        }
+
         switch (_gameState)
         {
             case GameState.FreeRoam:
             { 
                 m_AudioSource.clip = m_WorldMusic[0];
                 m_AudioSource.Play();
-                    m_AudioSource.volume = 0.5f;
-                    break;
+                m_AudioSource.volume = 0.5f;
+                break;
             }
 
             case GameState.Battle:
@@ -45,7 +50,7 @@ public class AudioManager : MonoBehaviour
             {
                 m_AudioSource.clip = m_FinalMusic[0];
                 m_AudioSource.Play();
-                m_AudioSource.volume = 1.0f;
+                m_AudioSource.volume = 1.5f;
                 break;
             }
 
@@ -53,7 +58,7 @@ public class AudioManager : MonoBehaviour
             {
                 m_AudioSource.clip = m_FinalRoamMusic[0];
                 m_AudioSource.Play();
-                m_AudioSource.volume = 0.08f;
+                m_AudioSource.volume = 0.05f;
                 break;
             }
         }

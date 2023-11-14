@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
     private float newXP;
 
     // returning info.
-    public GameState GetState { get { return m_State; } }
+    public GameState State { get { return m_State; } }
     public void SetState(GameState _state) { m_State = _state; }
 
     public bool GetIsInWorldFlip()  
@@ -124,12 +124,13 @@ public class GameController : MonoBehaviour
      
         Debug.Log("NewXp: " + newXP);
 
-        // Add temp xp + new xp
-        m_XPBar.UpdateProgress(newXP);
         if (!m_AudioManager.dontChangeMusic)
         {
             m_AudioManager.SetMusic(GameState.FreeRoam);
         }
+
+        // Add temp xp + new xp
+        m_XPBar.UpdateProgress(newXP);
     }
     public void EndWorldFlip()
     {

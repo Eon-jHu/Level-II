@@ -53,7 +53,7 @@ MonoBehaviour:
   maxHP: 50
   currentHP: 50
   maxEnergy: 4
-  currentEnergy: 0
+  currentEnergy: 4
   isAlive: 1
   isHit: 0
   attackBehaviour: {fileID: 11400000, guid: 0957e9d31d385044a97bc1d19c64874e, type: 2}
