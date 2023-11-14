@@ -46,7 +46,7 @@ public class DialogueHelper : MonoBehaviour
     {
         if (_damage < 0)
         {
-            return _unitName + " tries to Ulti, but doesn't have enough energy.";
+            return _unitName + " tries to Ulti... not enough energy!";
         }
         else
         {
