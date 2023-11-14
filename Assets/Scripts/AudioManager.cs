@@ -58,7 +58,7 @@ public class AudioManager : MonoBehaviour
             {
                 m_AudioSource.clip = m_FinalRoamMusic[0];
                 m_AudioSource.Play();
-                m_AudioSource.volume = 0.05f;
+                m_AudioSource.volume = 0.03f;
                 break;
             }
         }

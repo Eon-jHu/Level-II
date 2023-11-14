@@ -43,7 +43,7 @@ public class FinalGameOver : MonoBehaviour
     private IEnumerator LoadLevelAfterDelayCoroutine()
     {
         // Pause for 5 seconds
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
         SceneManager.LoadScene("MainMenu");
     }
@@ -51,6 +51,7 @@ public class FinalGameOver : MonoBehaviour
     public void RestartGame()
     {
         errorPanel.SetActive(true);
+        Debug.Log("Restart Button Pressed");
         StartCoroutine(LoadLevelAfterDelayCoroutine());
     }
 

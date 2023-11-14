@@ -64,7 +64,11 @@ public class GameController : MonoBehaviour
         m_PlayerController.OnEncountered += StartBattle;
         m_BattleSystem.OnBattleOver += EndBattle;
         m_XPBar.OnXPNotch += StartWorldFlip;
-        m_CameraShake.OnShakeOver += EndWorldFlip;
+
+        if (m_CameraShake != null)
+        {
+            m_CameraShake.OnShakeOver += EndWorldFlip;
+        }
     }
 
     private void StartBattle(GameObject _encountered)
