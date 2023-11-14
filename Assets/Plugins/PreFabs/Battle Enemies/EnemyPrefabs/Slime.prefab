@@ -50,8 +50,8 @@ MonoBehaviour:
   unitLevel: 1
   attackMod: -9
   blockMod: -9
-  maxHP: 20
-  currentHP: 20
+  maxHP: 30
+  currentHP: 30
   maxEnergy: 9
   currentEnergy: 0
   isAlive: 1

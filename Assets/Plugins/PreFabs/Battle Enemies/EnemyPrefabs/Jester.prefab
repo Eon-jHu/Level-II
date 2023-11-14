@@ -48,7 +48,7 @@ MonoBehaviour:
   battleBackground: {fileID: 21300000, guid: 9664709aa9c98874189100b35ec1cff1, type: 3}
   unitName: Jester
   unitLevel: 2
-  attackMod: 0
+  attackMod: 15
   blockMod: 0
   maxHP: 1
   currentHP: 1

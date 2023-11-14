@@ -50,10 +50,10 @@ MonoBehaviour:
   unitLevel: 1
   attackMod: 0
   blockMod: 0
-  maxHP: 50
-  currentHP: 50
+  maxHP: 40
+  currentHP: 40
   maxEnergy: 4
-  currentEnergy: 4
+  currentEnergy: 0
   isAlive: 1
   isHit: 0
   attackBehaviour: {fileID: 11400000, guid: 0957e9d31d385044a97bc1d19c64874e, type: 2}

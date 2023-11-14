@@ -98,7 +98,10 @@ public class BattleSystem : MonoBehaviour
 
         // Battle Order: Ultis >> Blocks >> Attacks >> Charges >> CleanUp
         ResolveUlti(playerBattleUnit, enemyBattleUnit, enemyHUD);
-        ResolveUlti(enemyBattleUnit, playerBattleUnit, playerHUD);
+        if (CheckAlive())
+        {
+            ResolveUlti(enemyBattleUnit, playerBattleUnit, playerHUD);
+        }
 
         // Check life after ulti
         if (CheckAlive())
@@ -107,7 +110,10 @@ public class BattleSystem : MonoBehaviour
             ResolveBlock(enemyBattleUnit);
 
             ResolveAttack(playerBattleUnit, enemyBattleUnit, enemyHUD);
-            ResolveAttack(enemyBattleUnit, playerBattleUnit, playerHUD);
+            if (CheckAlive())
+            {
+                ResolveAttack(enemyBattleUnit, playerBattleUnit, playerHUD);
+            }
 
             ResolveSuccessfulBlock(playerBattleUnit, enemyBattleUnit, playerHUD);
             ResolveSuccessfulBlock(enemyBattleUnit, playerBattleUnit, enemyHUD);

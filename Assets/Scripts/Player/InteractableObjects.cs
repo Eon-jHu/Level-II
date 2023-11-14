@@ -86,11 +86,11 @@ public class InteractableObjects : CollidableObjects
             Instantiate(FloatingText, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
-        // Otherwise, you're going to INTERACT with it; in COMBAT
-        else if (!dialoguePanel.activeInHierarchy)
-        {
-            OnInteract(_player);
-        }
+        //// Otherwise, you're going to INTERACT with it; in COMBAT
+        //else if (!dialoguePanel.activeInHierarchy)
+        //{
+        //    OnInteract(_player);
+        //}
 
         //// Checks if object needs upgraded sword to delete.
         //if (NeedsSpecialSword)
